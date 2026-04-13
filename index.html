@@ -1,0 +1,3677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELG Estate Planning — CORE Client Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Raleway:wght@600;700;800&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #1B2A4A;
+            --teal: #2E8B8B;
+            --teal-light: #2DBFAA;
+            --teal-subtle: #E0F2F1;
+            --white: #FFFFFF;
+            --bg-light: #F8F9FA;
+            --bg-card: #F0F2F5;
+            --border-light: #E2E6EB;
+            --success: #27AE60;
+            --text-gray: #5A6577;
+            --text-dark: #1B2A4A;
+            --text-muted: #8B95A5;
+        }
+
+        html, body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            display: flex;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 72px;
+            background-color: var(--navy);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 24px 0;
+            box-shadow: 0 2px 8px rgba(27, 42, 74, 0.12);
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Raleway', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 48px;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .logo span.teal {
+            color: var(--teal);
+        }
+
+        .nav-items {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            flex: 1;
+        }
+
+        .nav-item {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 20px;
+            position: relative;
+        }
+
+        .nav-item:hover {
+            color: var(--white);
+        }
+
+        .nav-item.active {
+            background-color: var(--teal);
+            color: var(--white);
+        }
+
+        .nav-tooltip {
+            position: absolute;
+            left: 72px;
+            background-color: var(--navy);
+            color: var(--white);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            margin-left: 8px;
+        }
+
+        .nav-item:hover .nav-tooltip {
+            opacity: 1;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--teal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* MAIN CONTENT */
+        .main-container {
+            margin-left: 72px;
+            flex: 1;
+            background-color: var(--bg-light);
+            overflow-y: auto;
+        }
+
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        /* HEADER */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 40px;
+        }
+
+        .header-left h1 {
+            font-family: 'Raleway', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .header-left p {
+            font-size: 14px;
+            color: var(--text-gray);
+        }
+
+        .header-right {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .badge {
+            background-color: var(--teal-subtle);
+            color: var(--teal);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .date-text {
+            color: var(--text-gray);
+            font-size: 13px;
+        }
+
+        /* SECTION HEADER */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .section-header h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .count-badge {
+            background-color: var(--teal-subtle);
+            color: var(--teal);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .section-subtitle {
+            color: var(--text-gray);
+            font-size: 13px;
+            margin-top: -20px;
+            margin-bottom: 24px;
+        }
+
+        /* GRID LAYOUTS */
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            margin-bottom: 48px;
+        }
+
+        .agent-grid-2col {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 20px;
+            margin-bottom: 48px;
+        }
+
+        .agent-grid-4col {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 16px;
+            margin-bottom: 48px;
+        }
+
+        /* CARDS */
+        .card {
+            background-color: var(--white);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(27, 42, 74, 0.06);
+            transition: all 0.2s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 16px rgba(27, 42, 74, 0.12);
+            transform: translateY(-2px);
+        }
+
+        /* METRIC CARD */
+        .metric-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .metric-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .metric-label {
+            font-size: 14px;
+            color: var(--text-gray);
+            margin-bottom: 12px;
+        }
+
+        .metric-detail {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .metric-icon-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 16px;
+        }
+
+        .icon-circle {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--white);
+        }
+
+        .icon-teal {
+            background-color: var(--teal);
+        }
+
+        .icon-green {
+            background-color: var(--success);
+        }
+
+        .icon-navy {
+            background-color: var(--navy);
+        }
+
+        /* ROMI DASHBOARD */
+        .romi-section {
+            margin-bottom: 48px;
+        }
+
+        .romi-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .romi-grid-full {
+            grid-column: 1 / -1;
+        }
+
+        /* WIG Card */
+        .wig-card {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, var(--navy) 0%, #2a3f6b 100%);
+            color: var(--white);
+            padding: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wig-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(27, 42, 74, 0.25);
+        }
+
+        .wig-label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--teal-light);
+            margin-bottom: 8px;
+        }
+
+        .wig-title {
+            font-family: 'Raleway', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .wig-subtitle {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 24px;
+        }
+
+        .wig-progress-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 16px;
+        }
+
+        .wig-progress-bar-bg {
+            flex: 1;
+            height: 20px;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .wig-progress-bar-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 1.5s ease;
+            position: relative;
+        }
+
+        .wig-progress-bar-fill.on-track {
+            background: linear-gradient(90deg, var(--teal) 0%, var(--teal-light) 100%);
+        }
+
+        .wig-progress-bar-fill.off-track {
+            background: linear-gradient(90deg, #E67E22 0%, #F39C12 100%);
+        }
+
+        .wig-progress-bar-fill.behind {
+            background: linear-gradient(90deg, #C0392B 0%, #E74C3C 100%);
+        }
+
+        .wig-progress-marker {
+            position: absolute;
+            top: -6px;
+            width: 2px;
+            height: 32px;
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .wig-progress-label {
+            font-size: 28px;
+            font-weight: 700;
+            min-width: 80px;
+            text-align: right;
+        }
+
+        .wig-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .wig-from-to {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .wig-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .wig-status-badge.on-track {
+            background-color: rgba(45, 191, 170, 0.2);
+            color: var(--teal-light);
+        }
+
+        .wig-status-badge.off-track {
+            background-color: rgba(230, 126, 34, 0.2);
+            color: #F39C12;
+        }
+
+        .wig-status-badge.behind {
+            background-color: rgba(231, 76, 60, 0.2);
+            color: #E74C3C;
+        }
+
+        .wig-status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .wig-status-dot.on-track { background-color: var(--teal-light); }
+        .wig-status-dot.off-track { background-color: #F39C12; }
+        .wig-status-dot.behind { background-color: #E74C3C; }
+
+        /* Wins / Rocks Cards */
+        .romi-card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .romi-card-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .romi-card-icon.wins { background-color: #E8F8F0; color: #27AE60; }
+        .romi-card-icon.rocks { background-color: var(--teal-subtle); color: var(--teal); }
+
+        .romi-card-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .romi-card-subtitle {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Win Item */
+        .win-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .win-item:last-child {
+            border-bottom: none;
+        }
+
+        .win-toggle {
+            width: 40px;
+            height: 22px;
+            border-radius: 11px;
+            position: relative;
+            cursor: default;
+            flex-shrink: 0;
+            transition: background-color 0.2s;
+        }
+
+        .win-toggle.on {
+            background-color: var(--teal-light);
+        }
+
+        .win-toggle.off {
+            background-color: #D1D5DB;
+        }
+
+        .win-toggle-dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background-color: white;
+            position: absolute;
+            top: 2px;
+            transition: left 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+        }
+
+        .win-toggle.on .win-toggle-dot { left: 20px; }
+        .win-toggle.off .win-toggle-dot { left: 2px; }
+
+        .win-text {
+            font-size: 13px;
+            color: var(--text-dark);
+            line-height: 1.4;
+        }
+
+        .win-text.completed {
+            color: var(--text-gray);
+        }
+
+        /* Rock Item */
+        .rock-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .rock-item:last-child {
+            border-bottom: none;
+        }
+
+        .rock-progress-ring {
+            width: 44px;
+            height: 44px;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .rock-progress-ring svg {
+            transform: rotate(-90deg);
+        }
+
+        .rock-progress-bg {
+            fill: none;
+            stroke: var(--border-light);
+            stroke-width: 4;
+        }
+
+        .rock-progress-fill {
+            fill: none;
+            stroke-width: 4;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1s ease;
+        }
+
+        .rock-progress-fill.green { stroke: var(--success); }
+        .rock-progress-fill.yellow { stroke: #F39C12; }
+        .rock-progress-fill.red { stroke: #E74C3C; }
+        .rock-progress-fill.teal { stroke: var(--teal); }
+
+        .rock-progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .rock-info {
+            flex: 1;
+        }
+
+        .rock-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 2px;
+        }
+
+        .rock-detail {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* KPI Table */
+        .kpi-card {
+            grid-column: 1 / -1;
+        }
+
+        .kpi-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .kpi-table thead th {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            padding: 8px 12px;
+            text-align: center;
+            border-bottom: 2px solid var(--border-light);
+        }
+
+        .kpi-table thead th:first-child,
+        .kpi-table thead th:nth-child(2),
+        .kpi-table thead th:nth-child(3) {
+            text-align: left;
+        }
+
+        .kpi-table tbody td {
+            padding: 10px 12px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-light);
+            color: var(--text-dark);
+        }
+
+        .kpi-table tbody td:first-child {
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .kpi-table tbody td:nth-child(2) {
+            text-align: left;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .kpi-table tbody td:nth-child(3) {
+            text-align: left;
+            font-weight: 600;
+            color: var(--teal);
+        }
+
+        .kpi-type-label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 6px 10px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .kpi-type-label.lead {
+            background-color: var(--teal-subtle);
+            color: var(--teal);
+        }
+
+        .kpi-type-label.lag {
+            background-color: #FFF3E0;
+            color: #E67E22;
+        }
+
+        .kpi-cell {
+            min-width: 48px;
+        }
+
+        .kpi-cell-value {
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .kpi-cell-value.green { color: var(--success); }
+        .kpi-cell-value.yellow { color: #F39C12; }
+        .kpi-cell-value.red { color: #E74C3C; }
+        .kpi-cell-value.gray { color: var(--text-muted); }
+
+        .kpi-separator {
+            height: 8px;
+            background-color: transparent;
+        }
+
+        .kpi-separator td {
+            padding: 0 !important;
+            border-bottom: none !important;
+        }
+
+        /* AGENT CARD */
+        .agent-card {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .agent-header {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .agent-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: var(--teal-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--teal);
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .agent-info {
+            flex: 1;
+        }
+
+        .agent-name {
+            font-weight: 700;
+            color: var(--text-dark);
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .agent-description {
+            font-size: 13px;
+            color: var(--text-gray);
+            line-height: 1.4;
+        }
+
+        .agent-badge {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .live-badge {
+            color: var(--success);
+        }
+
+        .live-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .locked-badge {
+            color: var(--text-muted);
+        }
+
+        .lock-icon {
+            font-size: 10px;
+        }
+
+        .fundamental-tag {
+            display: inline-block;
+            background-color: var(--teal-subtle);
+            color: var(--teal);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            margin-bottom: 12px;
+            margin-top: 8px;
+        }
+
+        .agent-action {
+            margin-top: auto;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        /* BUTTONS */
+        .btn {
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Lato', sans-serif;
+        }
+
+        .btn-primary {
+            background-color: var(--teal);
+            color: var(--white);
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--teal-light);
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-card);
+            color: var(--text-muted);
+            width: 100%;
+            text-align: center;
+            cursor: not-allowed;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--teal);
+            border: 1px solid var(--teal);
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--teal-subtle);
+        }
+
+        /* LOCKED AGENT CARD */
+        .agent-card.locked {
+            opacity: 0.85;
+        }
+
+        .agent-card.locked .agent-icon {
+            background-color: #F0F2F5;
+            color: var(--text-muted);
+        }
+
+        .agent-card.locked .agent-name,
+        .agent-card.locked .agent-description {
+            color: var(--text-muted);
+        }
+
+        /* INTEGRATION CARDS */
+        .integration-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 48px;
+        }
+
+        .integration-card {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .integration-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--success);
+            margin-bottom: 16px;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--success);
+            border-radius: 50%;
+        }
+
+        .integration-name {
+            font-weight: 700;
+            color: var(--text-dark);
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+
+        .integration-desc {
+            font-size: 13px;
+            color: var(--text-gray);
+            margin-bottom: 12px;
+        }
+
+        .integration-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .integration-card.disconnected {
+            background-color: #FAFBFC;
+        }
+
+        .integration-card.disconnected .integration-name {
+            color: var(--text-muted);
+        }
+
+        /* MAC DADDY CARD */
+        .mac-daddy-card {
+            border-left: 4px solid var(--teal);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mac-daddy-header {
+            margin-bottom: 20px;
+        }
+
+        .mac-daddy-title {
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .mac-daddy-subtitle {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .mac-daddy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .mac-daddy-field {
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .mac-daddy-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .mac-daddy-value {
+            font-size: 13px;
+            color: var(--text-dark);
+            line-height: 1.4;
+        }
+
+        /* ACTIVITY FEED */
+        .activity-feed {
+            margin-bottom: 48px;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--success);
+            border-radius: 50%;
+            margin-top: 6px;
+            flex-shrink: 0;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-text {
+            font-size: 13px;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .activity-time {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 24px;
+            color: var(--text-muted);
+            font-size: 12px;
+            border-top: 1px solid var(--border-light);
+            margin-top: 48px;
+        }
+
+        /* MODAL */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(27, 42, 74, 0.4);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(27, 42, 74, 0.16);
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-header {
+            padding: 32px 32px 20px;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-family: 'Raleway', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: color 0.2s;
+        }
+
+        .modal-close:hover {
+            color: var(--text-dark);
+        }
+
+        .modal-content {
+            padding: 24px 32px;
+        }
+
+        .loading-spinner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--border-light);
+            border-top-color: var(--teal);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .output-content {
+            font-family: 'Lato', sans-serif;
+            font-size: 13px;
+            color: var(--text-dark);
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .output-content strong {
+            color: var(--text-dark);
+        }
+
+        /* VIEW ALL LINK */
+        .view-all-link {
+            display: inline-block;
+            color: var(--teal);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 16px;
+            transition: color 0.2s;
+        }
+
+        .view-all-link:hover {
+            color: var(--teal-light);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .metric-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+
+            .agent-grid-2col {
+                grid-template-columns: 1fr;
+            }
+
+            .agent-grid-4col {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .header-left h1 {
+                font-size: 28px;
+            }
+
+            .mac-daddy-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* LOGIN OVERLAY */
+        .login-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, #1B2A4A 0%, #2E8B8B 100%);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        .login-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .login-card {
+            background: white;
+            border-radius: 16px;
+            padding: 48px 40px;
+            width: 400px;
+            max-width: 90vw;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        .login-logo {
+            font-family: 'Raleway', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--navy);
+            margin-bottom: 4px;
+        }
+        .login-logo .teal { color: var(--teal); }
+        .login-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+            font-weight: 500;
+        }
+        .login-field {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--border-light);
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: 'Lato', sans-serif;
+            outline: none;
+            transition: border-color 0.2s;
+            margin-bottom: 16px;
+        }
+        .login-field:focus {
+            border-color: var(--teal);
+        }
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--teal);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .login-btn:hover {
+            background: #247272;
+        }
+        .login-error {
+            color: #e74c3c;
+            font-size: 13px;
+            margin-top: 12px;
+            min-height: 20px;
+        }
+        .login-footer {
+            margin-top: 24px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        body.locked {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="locked">
+    <!-- LOGIN OVERLAY -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-card">
+            <div class="login-logo">yor<span class="teal">CMO</span></div>
+            <div class="login-subtitle">CORE Growth System — Client Portal</div>
+            <form id="loginForm" onsubmit="return handleLogin(event)">
+                <input type="password" class="login-field" id="loginPassword" placeholder="Enter your client password" autocomplete="current-password" autofocus>
+                <button type="submit" class="login-btn">Sign In</button>
+            </form>
+            <div class="login-error" id="loginError"></div>
+            <div class="login-footer">Protected client portal · Contact your CMO for access</div>
+        </div>
+    </div>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo">yor<span class="teal">CMO</span></div>
+        <div class="nav-items">
+            <div class="nav-item active" data-section="dashboard">
+                <span>📊</span>
+                <div class="nav-tooltip">Dashboard</div>
+            </div>
+            <div class="nav-item" data-section="romi">
+                <span>🎯</span>
+                <div class="nav-tooltip">ROMI</div>
+            </div>
+            <div class="nav-item" data-section="agents">
+                <span>🤖</span>
+                <div class="nav-tooltip">Agents</div>
+            </div>
+            <div class="nav-item" data-section="integrations">
+                <span>🔌</span>
+                <div class="nav-tooltip">Integrations</div>
+            </div>
+            <div class="nav-item" data-section="mac-daddy">
+                <span>📄</span>
+                <div class="nav-tooltip">Mac Daddy File</div>
+            </div>
+            <div class="nav-item" data-section="activity">
+                <span>⏱️</span>
+                <div class="nav-tooltip">Activity</div>
+            </div>
+        </div>
+        <div class="user-avatar">JF</div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-container">
+        <div class="content">
+            <!-- HEADER -->
+            <div class="header" id="dashboard">
+                <div class="header-left">
+                    <h1>Welcome back, Joseph!</h1>
+                    <p>Manage your CORE Growth System and monitor agent performance.</p>
+                </div>
+                <div class="header-right">
+                    <div class="badge">CORE Growth System</div>
+                    <div class="date-text">April 12, 2026</div>
+                </div>
+            </div>
+
+            <!-- METRIC CARDS -->
+            <div class="metric-grid">
+                <div class="card metric-card">
+                    <div>
+                        <div class="metric-value">7</div>
+                        <div class="metric-label">Active Agents</div>
+                        <div class="metric-detail">of 24 total</div>
+                    </div>
+                    <div class="metric-icon-container">
+                        <div class="icon-circle icon-teal">🤖</div>
+                    </div>
+                </div>
+                <div class="card metric-card">
+                    <div>
+                        <div class="metric-value">3</div>
+                        <div class="metric-label">Integrations</div>
+                        <div class="metric-detail">HubSpot, Strety, Google Analytics</div>
+                    </div>
+                    <div class="metric-icon-container">
+                        <div class="icon-circle icon-green">🔗</div>
+                    </div>
+                </div>
+                <div class="card metric-card">
+                    <div>
+                        <div class="metric-value">4</div>
+                        <div class="metric-label">Agent Runs Today</div>
+                        <div class="metric-detail">Scorecard, CRM, LinkedIn, CMO Update</div>
+                    </div>
+                    <div class="metric-icon-container">
+                        <div class="icon-circle icon-navy">📈</div>
+                    </div>
+                </div>
+                <div class="card metric-card">
+                    <div>
+                        <div class="metric-value">Operational</div>
+                        <div class="metric-label">System Health</div>
+                        <div class="metric-detail">All systems normal</div>
+                    </div>
+                    <div class="metric-icon-container">
+                        <div class="icon-circle icon-green">✓</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROMI DASHBOARD -->
+            <div id="romi" class="romi-section">
+                <div class="section-header">
+                    <h2>ROMI Dashboard</h2>
+                    <div class="count-badge">WIGs + Wins</div>
+                    <div style="margin-left: auto; display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--teal); font-weight: 500;">
+                        <div style="width: 8px; height: 8px; border-radius: 50%; background-color: var(--teal); animation: pulse 2s infinite;"></div>
+                        Powered by Strety
+                    </div>
+                </div>
+
+                <div class="romi-grid">
+                    <!-- WIG CARD -->
+                    <div class="card wig-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                            <div class="wig-label">2-Year Wildly Important Goal — T1 2026 (Feb–May)</div>
+                            <div style="font-size: 11px; color: rgba(255,255,255,0.5); display: flex; align-items: center; gap: 6px;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                                from Strety · Leadership Team
+                            </div>
+                        </div>
+                        <div class="wig-title">Grow CMOs from 21 → 100 &amp; Referral Clients from 12 → 36</div>
+                        <div class="wig-subtitle">By December 2027 · Trimester target: 6 net new CMOs &amp; 4 net new MRR clients</div>
+
+                        <div class="wig-progress-container">
+                            <div class="wig-progress-bar-bg">
+                                <div class="wig-progress-bar-fill off-track" style="width: 0%" id="wigProgress"></div>
+                                <!-- Trimester markers: T1 = 17 weeks (Feb–May), we're in week 9 -->
+                                <div class="wig-progress-marker" style="left: 25%;" title="Week 4"></div>
+                                <div class="wig-progress-marker" style="left: 50%;" title="Week 8"></div>
+                                <div class="wig-progress-marker" style="left: 75%;" title="Week 12"></div>
+                            </div>
+                            <div class="wig-progress-label">26 / 100 CMOs</div>
+                        </div>
+
+                        <div class="wig-meta">
+                            <div class="wig-from-to">26 active CMOs (target: 27) · 0 new this tri (target: 6) · MRR $120K vs $172K target · Week 11 of 17</div>
+                            <div class="wig-status-badge off-track" style="background: rgba(231,76,60,0.2); color: #E74C3C;">
+                                <div class="wig-status-dot" style="background: #E74C3C;"></div>
+                                Off Track — 0 new CMOs, MRR 30% below, pipeline dry, 3/6 rocks off track
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- WEEKLY WINS -->
+                    <div class="card">
+                        <div class="romi-card-header">
+                            <div class="romi-card-icon wins">✓</div>
+                            <div style="flex:1;">
+                                <div class="romi-card-title">Weekly Wins</div>
+                                <div class="romi-card-subtitle">Week of April 6–12, 2026</div>
+                            </div>
+                            <div style="font-size: 10px; color: var(--text-muted); display: flex; align-items: center; gap: 4px;">
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                                Strety + L10
+                            </div>
+                        </div>
+
+                        <div class="win-item">
+                            <div class="win-toggle off"><div class="win-toggle-dot"></div></div>
+                            <div class="win-text">0 new CMOs this trimester — target is 4, halfway through T1</div>
+                        </div>
+                        <div class="win-item">
+                            <div class="win-toggle on"><div class="win-toggle-dot"></div></div>
+                            <div class="win-text completed">8 CMO intro meetings this week — best week of trimester</div>
+                        </div>
+                        <div class="win-item">
+                            <div class="win-toggle on"><div class="win-toggle-dot"></div></div>
+                            <div class="win-text completed">Licensing rock 3/5 milestones — only rock confirmed on track</div>
+                        </div>
+                        <div class="win-item">
+                            <div class="win-toggle off"><div class="win-toggle-dot"></div></div>
+                            <div class="win-text">MRR $120K vs $172K target — 30% below, flat 10+ weeks</div>
+                        </div>
+                        <div class="win-item">
+                            <div class="win-toggle off"><div class="win-toggle-dot"></div></div>
+                            <div class="win-text">All 3 lead channels at zero for 4+ weeks — pipeline drying up</div>
+                        </div>
+                        <div class="win-item">
+                            <div class="win-toggle off"><div class="win-toggle-dot"></div></div>
+                            <div class="win-text">3 of 6 rocks off track — Chad &amp; Marshall have zero check-ins</div>
+                        </div>
+                        <div class="win-item">
+                            <div class="win-toggle off"><div class="win-toggle-dot"></div></div>
+                            <div class="win-text">Deep Dives 4/10 at week 9 — on pace for 40% of target</div>
+                        </div>
+                        <div class="win-item">
+                            <div class="win-toggle off"><div class="win-toggle-dot"></div></div>
+                            <div class="win-text">Content campaign off track — 1/4 milestones, due date missed Mar 31</div>
+                        </div>
+                    </div>
+
+                    <!-- QUARTERLY ROCKS -->
+                    <div class="card">
+                        <div class="romi-card-header">
+                            <div class="romi-card-icon rocks">◆</div>
+                            <div style="flex:1;">
+                                <div class="romi-card-title">Quarterly Rocks</div>
+                                <div class="romi-card-subtitle">T1 2026 — Feb through May · 1 on track, 2 at risk, 3 off track</div>
+                            </div>
+                            <div style="font-size: 10px; color: var(--text-muted); display: flex; align-items: center; gap: 4px;">
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                                Strety Rocks
+                            </div>
+                        </div>
+
+                        <!-- Rock 1: Coordinator → Marketing Manager — OFF TRACK -->
+                        <div class="rock-item">
+                            <div class="rock-progress-ring">
+                                <svg width="44" height="44" viewBox="0 0 44 44">
+                                    <circle class="rock-progress-bg" cx="22" cy="22" r="18"></circle>
+                                    <circle class="rock-progress-fill red" cx="22" cy="22" r="18"
+                                        stroke-dasharray="113.1" stroke-dashoffset="96.9"></circle>
+                                </svg>
+                                <div class="rock-progress-text">14%</div>
+                            </div>
+                            <div class="rock-info">
+                                <div class="rock-name">Coordinator → Marketing Manager Transition</div>
+                                <div class="rock-detail">Marshall Poindexter · 1/7 milestones · No check-ins ever · Off Track</div>
+                            </div>
+                        </div>
+
+                        <!-- Rock 2: AI Brand & Positioning — AT RISK -->
+                        <div class="rock-item">
+                            <div class="rock-progress-ring">
+                                <svg width="44" height="44" viewBox="0 0 44 44">
+                                    <circle class="rock-progress-bg" cx="22" cy="22" r="18"></circle>
+                                    <circle class="rock-progress-fill yellow" cx="22" cy="22" r="18"
+                                        stroke-dasharray="113.1" stroke-dashoffset="84.8"></circle>
+                                </svg>
+                                <div class="rock-progress-text">25%</div>
+                            </div>
+                            <div class="rock-info">
+                                <div class="rock-name">Incorporate AI into Brand &amp; Positioning</div>
+                                <div class="rock-detail">Marguerite Yeo · 1/4 milestones · Owner says On Track · 25% at week 9</div>
+                            </div>
+                        </div>
+
+                        <!-- Rock 3: Marketing Brain Platform — AT RISK -->
+                        <div class="rock-item">
+                            <div class="rock-progress-ring">
+                                <svg width="44" height="44" viewBox="0 0 44 44">
+                                    <circle class="rock-progress-bg" cx="22" cy="22" r="18"></circle>
+                                    <circle class="rock-progress-fill yellow" cx="22" cy="22" r="18"
+                                        stroke-dasharray="113.1" stroke-dashoffset="56.6"></circle>
+                                </svg>
+                                <div class="rock-progress-text">50%</div>
+                            </div>
+                            <div class="rock-info">
+                                <div class="rock-name">Marketing Brain as Core Delivery Platform</div>
+                                <div class="rock-detail">Joseph Frost · 2/4 milestones · No check-in since Mar 16</div>
+                            </div>
+                        </div>
+
+                        <!-- Rock 4: Licensing Process — ON TRACK ✓ -->
+                        <div class="rock-item">
+                            <div class="rock-progress-ring">
+                                <svg width="44" height="44" viewBox="0 0 44 44">
+                                    <circle class="rock-progress-bg" cx="22" cy="22" r="18"></circle>
+                                    <circle class="rock-progress-fill green" cx="22" cy="22" r="18"
+                                        stroke-dasharray="113.1" stroke-dashoffset="45.2"></circle>
+                                </svg>
+                                <div class="rock-progress-text">60%</div>
+                            </div>
+                            <div class="rock-info">
+                                <div class="rock-name">Standardize &amp; De-Risk Licensing Process</div>
+                                <div class="rock-detail">Fanny Ramos · 3/5 milestones · On Track (confirmed Mar 30)</div>
+                            </div>
+                        </div>
+
+                        <!-- Rock 5: Firm Growth System — OFF TRACK -->
+                        <div class="rock-item">
+                            <div class="rock-progress-ring">
+                                <svg width="44" height="44" viewBox="0 0 44 44">
+                                    <circle class="rock-progress-bg" cx="22" cy="22" r="18"></circle>
+                                    <circle class="rock-progress-fill red" cx="22" cy="22" r="18"
+                                        stroke-dasharray="113.1" stroke-dashoffset="113.1"></circle>
+                                </svg>
+                                <div class="rock-progress-text">0%</div>
+                            </div>
+                            <div class="rock-info">
+                                <div class="rock-name">Firm Growth System That Scales Revenue</div>
+                                <div class="rock-detail">Chad Person · 0/5 milestones · MVP deadline missed (Mar 31) · No check-ins ever</div>
+                            </div>
+                        </div>
+
+                        <!-- Rock 6: Content & Partner Campaign — OFF TRACK -->
+                        <div class="rock-item">
+                            <div class="rock-progress-ring">
+                                <svg width="44" height="44" viewBox="0 0 44 44">
+                                    <circle class="rock-progress-bg" cx="22" cy="22" r="18"></circle>
+                                    <circle class="rock-progress-fill red" cx="22" cy="22" r="18"
+                                        stroke-dasharray="113.1" stroke-dashoffset="84.8"></circle>
+                                </svg>
+                                <div class="rock-progress-text">25%</div>
+                            </div>
+                            <div class="rock-info">
+                                <div class="rock-name">Content Creation &amp; Partner Nurturing Campaign</div>
+                                <div class="rock-detail">Flor Arballo · 1/4 milestones · Off Track · 3 sessions, due Mar 31 (missed)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- KPI TRACKING TABLE -->
+                    <div class="card kpi-card">
+                        <div class="romi-card-header">
+                            <div class="romi-card-icon rocks">📏</div>
+                            <div style="flex:1;">
+                                <div class="romi-card-title">KPI Scorecard</div>
+                                <div class="romi-card-subtitle">Lead &amp; Lag Measures — T1 2026 · 1 ✓ / 2 ⚠ / 12 ✗ · Week 9 of 17</div>
+                            </div>
+                            <div style="font-size: 10px; color: var(--text-muted); display: flex; align-items: center; gap: 4px;">
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                                Strety Scorecard + HubSpot
+                            </div>
+                        </div>
+
+                        <table class="kpi-table">
+                            <thead>
+                                <tr>
+                                    <th>KPI</th>
+                                    <th>Type</th>
+                                    <th>Target</th>
+                                    <th>Mar 9<br><span style="font-weight:400;font-size:10px;">Wk 6</span></th>
+                                    <th>Mar 16<br><span style="font-weight:400;font-size:10px;">Wk 7</span></th>
+                                    <th>Mar 23<br><span style="font-weight:400;font-size:10px;">Wk 8</span></th>
+                                    <th>Mar 30<br><span style="font-weight:400;font-size:10px;">Wk 9</span></th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- LEAD MEASURES -->
+                                <tr>
+                                    <td>CMO Intro Meetings Held</td>
+                                    <td><span class="kpi-type-label lead">Lead</span></td>
+                                    <td>≥ 25 / tri</td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value yellow">0</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value green">3</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value green">2</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value green">8</span></td>
+                                    <td>⚠️ 20/25</td>
+                                </tr>
+                                <tr>
+                                    <td>Hot Leads from Referrals</td>
+                                    <td><span class="kpi-type-label lead">Lead</span></td>
+                                    <td>≥ 1 / wk</td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">0</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">0</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">0</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">0</span></td>
+                                    <td>🔴</td>
+                                </tr>
+                                <tr>
+                                    <td>Hot Leads from Sales</td>
+                                    <td><span class="kpi-type-label lead">Lead</span></td>
+                                    <td>≥ 1 / wk</td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">0</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">0</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">0</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">0</span></td>
+                                    <td>🔴</td>
+                                </tr>
+                                <tr>
+                                    <td>Hot Leads from Marketing</td>
+                                    <td><span class="kpi-type-label lead">Lead</span></td>
+                                    <td>≥ 1 / wk</td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">0</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">0</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">0</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">0</span></td>
+                                    <td>🔴</td>
+                                </tr>
+                                <tr>
+                                    <td>Intro Meetings Held (Flor)</td>
+                                    <td><span class="kpi-type-label lead">Lead</span></td>
+                                    <td>≥ 2 / wk</td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">0</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">0</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">1</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">0</span></td>
+                                    <td>🔴</td>
+                                </tr>
+                                <tr>
+                                    <td>CMO Deep Dives Held</td>
+                                    <td><span class="kpi-type-label lead">Lead</span></td>
+                                    <td>≥ 10 / tri</td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value green">1</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value green">1</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">0</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">0</span></td>
+                                    <td>🔴 4/10</td>
+                                </tr>
+                                <tr>
+                                    <td>Franchise/License Agreements</td>
+                                    <td><span class="kpi-type-label lead">Lead</span></td>
+                                    <td>≥ 1</td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">0</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">0</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">0</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">0</span></td>
+                                    <td>🔴</td>
+                                </tr>
+
+                                <!-- Separator -->
+                                <tr class="kpi-separator"><td colspan="8"></td></tr>
+
+                                <!-- LAG MEASURES -->
+                                <tr>
+                                    <td>Monthly Client Billable MRR</td>
+                                    <td><span class="kpi-type-label lag">Lag</span></td>
+                                    <td>≥ $171.8K</td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">$120K</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">$120K</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">$120K</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">$120K</span></td>
+                                    <td>🔴 -30%</td>
+                                </tr>
+                                <tr>
+                                    <td>MRR Net to yorCMO</td>
+                                    <td><span class="kpi-type-label lag">Lag</span></td>
+                                    <td>≥ $31.1K</td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">$23K</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">$23K</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">$23K</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">$23K</span></td>
+                                    <td>🔴 -26%</td>
+                                </tr>
+                                <tr>
+                                    <td>Total Real Revenue (MTD)</td>
+                                    <td><span class="kpi-type-label lag">Lag</span></td>
+                                    <td>≥ $66.6K</td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">$45.5K</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">$46.2K</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">$28.3K</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">$28.3K</span></td>
+                                    <td>🔴 -57%</td>
+                                </tr>
+                                <tr>
+                                    <td>New CMOs This Trimester</td>
+                                    <td><span class="kpi-type-label lag">Lag</span></td>
+                                    <td>≥ 6</td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">0</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">0</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">0</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">0</span></td>
+                                    <td>🔴 0/6</td>
+                                </tr>
+                                <tr>
+                                    <td>Licensee CMO Prospects</td>
+                                    <td><span class="kpi-type-label lag">Lag</span></td>
+                                    <td>≥ 0</td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value green">15</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value green">17</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value green">21</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value green">21</span></td>
+                                    <td>🟢</td>
+                                </tr>
+                                <tr>
+                                    <td>Total Active CMOs</td>
+                                    <td><span class="kpi-type-label lag">Lag</span></td>
+                                    <td>≥ 27</td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">26</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">26</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">26</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">26</span></td>
+                                    <td>🔴 flat</td>
+                                </tr>
+                                <tr>
+                                    <td>Clients per CMO (w/ 1+)</td>
+                                    <td><span class="kpi-type-label lag">Lag</span></td>
+                                    <td>≥ 2.0</td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">1.78</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">1.78</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">1.78</span></td>
+                                    <td class="kpi-cell"><span class="kpi-cell-value red">1.78</span></td>
+                                    <td>🔴 ↓</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ACTIVE AGENTS SECTION -->
+            <div id="agents">
+                <div class="section-header">
+                    <h2>Your Active Agents</h2>
+                    <div class="count-badge">7</div>
+                </div>
+
+                <div class="agent-grid-2col">
+                    <div class="card agent-card">
+                        <div class="agent-badge live-badge">
+                            <div class="live-dot"></div>
+                            Live
+                        </div>
+                        <div class="agent-header">
+                            <div class="agent-icon">📊</div>
+                            <div class="agent-info">
+                                <div class="agent-name">Scorecard Agent</div>
+                                <div class="agent-description">Weekly/monthly scorecards, KPI tracking, performance alerts</div>
+                            </div>
+                        </div>
+                        <div class="fundamental-tag">F1: Know Where You're Going</div>
+                        <div class="agent-action">
+                            <button class="btn btn-primary" onclick="openModal('Scorecard Agent', 'scorecard')">Open</button>
+                        </div>
+                    </div>
+
+                    <div class="card agent-card">
+                        <div class="agent-badge live-badge">
+                            <div class="live-dot"></div>
+                            Live
+                        </div>
+                        <div class="agent-header">
+                            <div class="agent-icon">📇</div>
+                            <div class="agent-info">
+                                <div class="agent-name">CRM & Lead Ops Agent</div>
+                                <div class="agent-description">CRM hygiene, pipeline stages, lead quality, deduplication</div>
+                            </div>
+                        </div>
+                        <div class="fundamental-tag">F4: Align Sales & Marketing</div>
+                        <div class="agent-action">
+                            <button class="btn btn-primary" onclick="openModal('CRM & Lead Ops Agent', 'crm')">Open</button>
+                        </div>
+                    </div>
+
+                    <div class="card agent-card">
+                        <div class="agent-badge live-badge">
+                            <div class="live-dot"></div>
+                            Live
+                        </div>
+                        <div class="agent-header">
+                            <div class="agent-icon">🔍</div>
+                            <div class="agent-info">
+                                <div class="agent-name">Research & Intelligence Agent</div>
+                                <div class="agent-description">Competitive intel, market briefs, prospect lists</div>
+                            </div>
+                        </div>
+                        <div class="fundamental-tag">F2: Understand Your Buyer</div>
+                        <div class="agent-action">
+                            <button class="btn btn-primary" onclick="openModal('Research & Intelligence Agent', 'research')">Open</button>
+                        </div>
+                    </div>
+
+                    <div class="card agent-card">
+                        <div class="agent-badge live-badge">
+                            <div class="live-dot"></div>
+                            Live
+                        </div>
+                        <div class="agent-header">
+                            <div class="agent-icon">✅</div>
+                            <div class="agent-info">
+                                <div class="agent-name">CMO Accountability Agent</div>
+                                <div class="agent-description">Weekly CMO updates, meeting prep, commitment tracking</div>
+                            </div>
+                        </div>
+                        <div class="fundamental-tag">F5: Build a Planning Cadence</div>
+                        <div class="agent-action">
+                            <button class="btn btn-primary" onclick="openModal('CMO Accountability Agent', 'accountability')">Open</button>
+                        </div>
+                    </div>
+
+                    <div class="card agent-card">
+                        <div class="agent-badge live-badge">
+                            <div class="live-dot"></div>
+                            Live
+                        </div>
+                        <div class="agent-header">
+                            <div class="agent-icon">📝</div>
+                            <div class="agent-info">
+                                <div class="agent-name">Blog Pipeline</div>
+                                <div class="agent-description">Outline → draft → edit → publish workflow</div>
+                            </div>
+                        </div>
+                        <div class="fundamental-tag">F6: Structure Your Execution</div>
+                        <div class="agent-action">
+                            <button class="btn btn-primary" onclick="openModal('Blog Pipeline', 'blog')">Open</button>
+                        </div>
+                    </div>
+
+                    <div class="card agent-card">
+                        <div class="agent-badge live-badge">
+                            <div class="live-dot"></div>
+                            Live
+                        </div>
+                        <div class="agent-header">
+                            <div class="agent-icon">💼</div>
+                            <div class="agent-info">
+                                <div class="agent-name">LinkedIn Post Generator</div>
+                                <div class="agent-description">Thought leadership posts in client voice</div>
+                            </div>
+                        </div>
+                        <div class="fundamental-tag">F6: Structure Your Execution</div>
+                        <div class="agent-action">
+                            <button class="btn btn-primary" onclick="openModal('LinkedIn Post Generator', 'linkedin')">Open</button>
+                        </div>
+                    </div>
+
+                    <div class="card agent-card">
+                        <div class="agent-badge live-badge">
+                            <div class="live-dot"></div>
+                            Live
+                        </div>
+                        <div class="agent-header">
+                            <div class="agent-icon">📱</div>
+                            <div class="agent-info">
+                                <div class="agent-name">Social Calendar Builder</div>
+                                <div class="agent-description">Weekly social calendar with topics, hooks, CTAs</div>
+                            </div>
+                        </div>
+                        <div class="fundamental-tag">F6: Structure Your Execution</div>
+                        <div class="agent-action">
+                            <button class="btn btn-primary" onclick="openModal('Social Calendar Builder', 'social')">Open</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AVAILABLE AGENTS SECTION -->
+            <div class="section-header">
+                <h2>Available Agents</h2>
+                <div class="count-badge">17</div>
+            </div>
+            <div class="section-subtitle">Activate with your CMO to unlock</div>
+
+            <div class="agent-grid-4col">
+                <div class="card agent-card locked">
+                    <div class="agent-badge locked-badge">
+                        <span class="lock-icon">🔒</span>
+                        Locked
+                    </div>
+                    <div class="agent-header">
+                        <div class="agent-icon">🔍</div>
+                        <div class="agent-info">
+                            <div class="agent-name">SEO & AEO Agent</div>
+                            <div class="agent-description">Optimization and keyword strategy</div>
+                        </div>
+                    </div>
+                    <div class="agent-action">
+                        <button class="btn btn-secondary">Request Activation</button>
+                    </div>
+                </div>
+
+                <div class="card agent-card locked">
+                    <div class="agent-badge locked-badge">
+                        <span class="lock-icon">🔒</span>
+                        Locked
+                    </div>
+                    <div class="agent-header">
+                        <div class="agent-icon">✍️</div>
+                        <div class="agent-info">
+                            <div class="agent-name">Website Copy Optimizer</div>
+                            <div class="agent-description">Landing page and CTA optimization</div>
+                        </div>
+                    </div>
+                    <div class="agent-action">
+                        <button class="btn btn-secondary">Request Activation</button>
+                    </div>
+                </div>
+
+                <div class="card agent-card locked">
+                    <div class="agent-badge locked-badge">
+                        <span class="lock-icon">🔒</span>
+                        Locked
+                    </div>
+                    <div class="agent-header">
+                        <div class="agent-icon">📧</div>
+                        <div class="agent-info">
+                            <div class="agent-name">Email Newsletter Builder</div>
+                            <div class="agent-description">Weekly newsletter campaigns</div>
+                        </div>
+                    </div>
+                    <div class="agent-action">
+                        <button class="btn btn-secondary">Request Activation</button>
+                    </div>
+                </div>
+
+                <div class="card agent-card locked">
+                    <div class="agent-badge locked-badge">
+                        <span class="lock-icon">🔒</span>
+                        Locked
+                    </div>
+                    <div class="agent-header">
+                        <div class="agent-icon">❓</div>
+                        <div class="agent-info">
+                            <div class="agent-name">FAQ Builder</div>
+                            <div class="agent-description">Support content generation</div>
+                        </div>
+                    </div>
+                    <div class="agent-action">
+                        <button class="btn btn-secondary">Request Activation</button>
+                    </div>
+                </div>
+
+                <div class="card agent-card locked">
+                    <div class="agent-badge locked-badge">
+                        <span class="lock-icon">🔒</span>
+                        Locked
+                    </div>
+                    <div class="agent-header">
+                        <div class="agent-icon">♻️</div>
+                        <div class="agent-info">
+                            <div class="agent-name">Content Repurposer</div>
+                            <div class="agent-description">Multi-format content adaptation</div>
+                        </div>
+                    </div>
+                    <div class="agent-action">
+                        <button class="btn btn-secondary">Request Activation</button>
+                    </div>
+                </div>
+
+                <div class="card agent-card locked">
+                    <div class="agent-badge locked-badge">
+                        <span class="lock-icon">🔒</span>
+                        Locked
+                    </div>
+                    <div class="agent-header">
+                        <div class="agent-icon">💡</div>
+                        <div class="agent-info">
+                            <div class="agent-name">Campaign Concept Generator</div>
+                            <div class="agent-description">Campaign strategy and planning</div>
+                        </div>
+                    </div>
+                    <div class="agent-action">
+                        <button class="btn btn-secondary">Request Activation</button>
+                    </div>
+                </div>
+
+                <div class="card agent-card locked">
+                    <div class="agent-badge locked-badge">
+                        <span class="lock-icon">🔒</span>
+                        Locked
+                    </div>
+                    <div class="agent-header">
+                        <div class="agent-icon">⚔️</div>
+                        <div class="agent-info">
+                            <div class="agent-name">Competitor Messaging Teardown</div>
+                            <div class="agent-description">Competitive analysis and positioning</div>
+                        </div>
+                    </div>
+                    <div class="agent-action">
+                        <button class="btn btn-secondary">Request Activation</button>
+                    </div>
+                </div>
+
+                <div class="card agent-card locked">
+                    <div class="agent-badge locked-badge">
+                        <span class="lock-icon">🔒</span>
+                        Locked
+                    </div>
+                    <div class="agent-header">
+                        <div class="agent-icon">🎨</div>
+                        <div class="agent-info">
+                            <div class="agent-name">Brand Voice Extractor</div>
+                            <div class="agent-description">Brand identity and guidelines</div>
+                        </div>
+                    </div>
+                    <div class="agent-action">
+                        <button class="btn btn-secondary">Request Activation</button>
+                    </div>
+                </div>
+            </div>
+
+            <a class="view-all-link">View All 17 Available Agents →</a>
+
+            <!-- INTEGRATIONS SECTION -->
+            <div id="integrations" class="section-header" style="margin-top: 48px;">
+                <h2>Connected Integrations</h2>
+            </div>
+
+            <div class="integration-grid">
+                <div class="card integration-card">
+                    <div class="integration-status">
+                        <div class="status-dot"></div>
+                        Connected
+                    </div>
+                    <div class="integration-name">HubSpot CRM</div>
+                    <div class="integration-desc">10,248 contacts synced</div>
+                    <div class="integration-meta">Last sync: 2 hours ago</div>
+                    <button class="btn btn-outline" style="margin-top: auto;">Manage</button>
+                </div>
+
+                <div class="card integration-card">
+                    <div class="integration-status">
+                        <div class="status-dot"></div>
+                        Connected
+                    </div>
+                    <div class="integration-name">Strety (EOS)</div>
+                    <div class="integration-desc">Rocks, Scorecards, WIGs, L10 Meetings</div>
+                    <div class="integration-meta">Feeds ROMI Dashboard · API ready</div>
+                    <button class="btn btn-outline" style="margin-top: auto;">Manage</button>
+                </div>
+
+                <div class="card integration-card">
+                    <div class="integration-status">
+                        <div class="status-dot"></div>
+                        Connected
+                    </div>
+                    <div class="integration-name">Google Analytics</div>
+                    <div class="integration-desc">Website traffic & conversion tracking</div>
+                    <div class="integration-meta">Last sync: 1 hour ago</div>
+                    <button class="btn btn-outline" style="margin-top: auto;">Manage</button>
+                </div>
+
+                <div class="card integration-card disconnected">
+                    <div class="integration-name">Social Platforms</div>
+                    <div class="integration-desc">LinkedIn, Facebook, Instagram</div>
+                    <div class="integration-meta">Not connected</div>
+                    <button class="btn btn-outline" style="margin-top: auto;">Connect</button>
+                </div>
+
+                <div class="card integration-card disconnected">
+                    <div class="integration-name">Email Platform</div>
+                    <div class="integration-desc">Mailchimp, ActiveCampaign, etc.</div>
+                    <div class="integration-meta">Not connected</div>
+                    <button class="btn btn-outline" style="margin-top: auto;">Connect</button>
+                </div>
+            </div>
+
+            <!-- MAC DADDY FILE SECTION -->
+            <div id="mac-daddy">
+                <div class="card mac-daddy-card">
+                    <div class="mac-daddy-header">
+                        <div class="mac-daddy-title">Marketing Source of Truth (Mac Daddy File)</div>
+                        <div class="mac-daddy-subtitle">Last updated: April 12, 2026</div>
+                    </div>
+                    <div class="mac-daddy-grid">
+                        <div class="mac-daddy-field">
+                            <div class="mac-daddy-label">Company</div>
+                            <div class="mac-daddy-value">yorCMO</div>
+                        </div>
+                        <div class="mac-daddy-field">
+                            <div class="mac-daddy-label">Positioning</div>
+                            <div class="mac-daddy-value">Senior fractional CMO + AI-powered growth system</div>
+                        </div>
+                        <div class="mac-daddy-field">
+                            <div class="mac-daddy-label">Primary Persona</div>
+                            <div class="mac-daddy-value">The Burned Founder — $5-50M founder-led SMB</div>
+                        </div>
+                        <div class="mac-daddy-field">
+                            <div class="mac-daddy-label">Brand Voice</div>
+                            <div class="mac-daddy-value">Casual, direct, warm — like texting</div>
+                        </div>
+                        <div class="mac-daddy-field">
+                            <div class="mac-daddy-label">Current Goals</div>
+                            <div class="mac-daddy-value">Grow CMOs 21→100 by Dec 2027 · T1: 26/27 active CMOs · 0 new this trimester · 1/6 rocks on track · Wk 11 of 17</div>
+                        </div>
+                        <div class="mac-daddy-field">
+                            <div class="mac-daddy-label">Content Pillars</div>
+                            <div class="mac-daddy-value">AI Strategy, Fractional CMO Advantage, Growth Systems, Client Results</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="openModal('Mac Daddy File', 'macdaddy')">View Full File</button>
+                </div>
+            </div>
+
+            <!-- ACTIVITY FEED SECTION -->
+            <div id="activity">
+                <div class="section-header" style="margin-top: 48px;">
+                    <h2>Recent Activity</h2>
+                </div>
+                <div class="card activity-feed">
+                    <div class="activity-item">
+                        <div class="activity-dot"></div>
+                        <div class="activity-content">
+                            <div class="activity-text">🔴 Research & Intelligence Agent — ALERT: Chief Outsiders launched GrowthGears OS (AI platform via Jauntboards acquisition). Threat level HIGH. yorCMO differentiation uncontested: data ownership, Six Fundamentals methodology, CMO transition resilience. 7 actions recommended.</div>
+                            <div class="activity-time">Today, 12:15 PM</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-dot"></div>
+                        <div class="activity-content">
+                            <div class="activity-text">CMO Accountability Agent generated weekly update — 🔴 1 On / 2 At Risk / 3 Off, Chad & Marshall NEVER checked in, Flor deadline missed</div>
+                            <div class="activity-time">Today, 12:00 PM</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-dot"></div>
+                        <div class="activity-content">
+                            <div class="activity-text">LinkedIn Post Generator drafted 3 posts from Mac Daddy content pillars — ready for review</div>
+                            <div class="activity-time">Today, 11:45 AM</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-dot"></div>
+                        <div class="activity-content">
+                            <div class="activity-text">Scorecard Agent generated weekly scorecard — 🔴 26 active CMOs (target 27), 0 new CMOs in T1 (target 6), all 3 lead channels at zero 3+ wks, MRR 30% below. ✅ 8 intro meetings (best week)</div>
+                            <div class="activity-time">Today, 11:30 AM</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-dot"></div>
+                        <div class="activity-content">
+                            <div class="activity-text">CRM & Lead Ops scanned HubSpot — flagged 1 spam record, 2 duplicate risks, 76.7% stage cleanup needed</div>
+                            <div class="activity-time">Today, 11:15 AM</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-dot"></div>
+                        <div class="activity-content">
+                            <div class="activity-text">HubSpot sync completed — 10,248 contacts, 236 active deals, 3 new contacts this week</div>
+                            <div class="activity-time">Today, 11:00 AM</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-dot"></div>
+                        <div class="activity-content">
+                            <div class="activity-text">New deal created: Chad Wells — Discovery stage, closes Jun 5</div>
+                            <div class="activity-time">Apr 6</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FOOTER -->
+            <div class="footer">
+                yorCMO — CORE Growth System · Powered by the Six Fundamentals
+            </div>
+        </div>
+    </main>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">Agent Output</div>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-content" id="modalContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // Agent outputs — LIVE DATA from HubSpot CRM + Mac Daddy File
+        // Generated: April 12, 2026
+        const agentOutputs = {
+            scorecard: `# WEEKLY SCORECARD — ELG Estate Planning
+**Agent:** CORE Scorecard Agent
+**Period:** Q2 2026 · Week 2 of 13 (Apr 1 – Jun 30, 2026)
+**Source:** ELG-Mac-Daddy-File.md + ELG Reporting Dec–March + ELG Marketing Audit
+**Generated:** April 13, 2026
+
+---
+
+## WIG STATUS
+**WIG:** Grow firm revenue from $3.0M → **$4.2M run-rate by June 2027** (~40% growth over 18 months)
+**Status:** 🟡 **ON PACE — EARLY**
+**Detail:** Q2 is the first full quarter under the new CORE system. WIG is long-horizon (14 months remaining). Q2 is the foundation quarter: Content Coordinator hired, Assignment Selling live, Evergreen Engine operational. Lead gen already hitting the 100+/mo threshold at <$80 CPL — foundation is healthy.
+
+**Revenue split targets:** Spokane $2.0M · Tri-Cities $1.2M · Seattle $1.0M
+
+---
+
+## ROCKS — Q2 2026 (Apr–Jun) · 0 On / 3 At Risk / 0 Off
+
+| Rock | Owner | Milestones | Progress | Status |
+|---|---|---|---|---|
+| **Content Coordinator Hired** (Due May 2026) | ⚠ [NEEDS INPUT] | JD → Open → Offer → Onboard | 0% — Marketing Manager just started 4/13 | 🟡 AT RISK |
+| **Assignment Selling Live** (Due Jun 1) | ⚠ [NEEDS INPUT] | Content library mapped → HubSpot workflows → Dashboards | 0% — scoping phase | 🟡 AT RISK |
+| **Evergreen Content Engine** (Due end Q2) | ⚠ [NEEDS INPUT] | 90-day calendar → 2/3 pillars producing → scorecard measurement | 0% | 🟡 AT RISK |
+
+🚨 **Accountability Gap:** All 3 Q2 rocks have unassigned owners in the Mac Daddy File. Rock owners must be named before next L10 or these will slip. Marketing Manager (started 4/13) likely owns Content Coordinator + Evergreen; Lynn + MM likely co-own Assignment Selling.
+
+---
+
+## LEAD MEASURES (Last 4 Weeks — trailing into Q2)
+
+| KPI | Target | W-4 (Mar) | W-3 | W-2 | W-1 (current) | Status |
+|---|---|---|---|---|---|---|
+| Total leads/month | 100+ | **119** ✓ | — | — | Partial | 🟢 GREEN (Mar baseline) |
+| Blended CPL | <$80 | **$70.78** ✓ | — | — | — | 🟢 GREEN |
+| LSA leads (Mar) | — | 83 @ $59.96 | — | — | — | 🟢 GREEN |
+| PPC leads (Mar) | — | 36 @ $95.71 | — | — | — | 🟡 YELLOW (high CPL) |
+| LSA response time | <15 min | [NEEDS DATA] | — | — | — | ❓ UNTRACKED |
+| Lead → Consult conv | [NEEDS TARGET] | [NEEDS DATA] | — | — | — | ❓ UNTRACKED |
+| Content published/pillar/wk | [NEEDS TARGET] | — | — | — | — | ❓ UNTRACKED |
+
+**Mar 2026 highlight:** 12.3% MoM lead growth · 6.5% CPL improvement · Seattle PPC Probate is the efficiency winner at $35.77 CPL.
+**Mar 2026 concern:** Spokane DSA PPC $174.61 CPL (2.5× target). Seattle EP PPC produced just 1 lead at $270.
+
+**April Pacing Change:** Shifted 30% PPC / 70% LSA (from 60/40) based on LSA efficiency.
+
+---
+
+## LAG MEASURES
+
+| KPI | Target | Current | Status |
+|---|---|---|---|
+| Firm revenue run-rate | $4.2M (Jun 2027) | ~$3.0M | 🟡 On pace — early |
+| New matters / mo by office | [NEEDS INPUT] | [NEEDS DATA — Clio] | ❓ |
+| Marketing-originated revenue % | [NEEDS TARGET] | Not measured | 🔴 CANNOT REPORT |
+| Consult → New Matter conv | [NEEDS TARGET + BASELINE] | Not measured | 🔴 CANNOT REPORT |
+| Review volume (total) | Maintain + grow | Spokane 256 (4.9) · TC 55 (4.8) · Sea 10 (5.0) | 🟢 Strong on Spokane/TC, 🟡 Seattle thin |
+
+**Overall:** 2 🟢 / 1 🟡 / 2 🔴 (primarily because attribution isn't wired).
+
+---
+
+## CRM & PIPELINE (HubSpot — MCP connected)
+
+**Live pull pending** — HubSpot MCP is authenticated but full pipeline snapshot will run in \`/run-crm\`. Based on Mac Daddy File + March reporting:
+
+- **Active automated sequences:** PreConsult, PostConsult, CanceledNoShow (all 3 live)
+- **Dashboard trust:** ~90% (per CMO progress note)
+- **Lifecycle stage hygiene:** Lead → MQL → SQL → Consult → Client inconsistent — flagged
+- **Known issues:**
+  - HubSpot ↔ CallRail mapping: **BROKEN** (call recordings not flowing)
+  - HubSpot ↔ GA4: **INCOMPLETE** (bi-directional still needed)
+  - HubSpot ↔ Acuity: **PARTIAL** (booking flow confusion)
+  - Clio ↔ HubSpot: **MANUAL**
+
+→ See \`CRM-Health-2026-04-13.md\` for detailed pipeline + hygiene report.
+
+---
+
+## DATA GAPS
+
+Platforms connected but not yet queried this run:
+- **Ninety.io / Strety** — rock + KPI live status (need credentials confirmed)
+- **CallRail** — call attribution (property mapping broken)
+- **GA4** — site + conversion events (call events not configured)
+- **Google Ads** — PPC/LSA admin access pending RivalMind onboarding
+- **Clio** — matter and revenue data
+- **Acuity** — consultation booking volume
+- **YouTube Studio / Meta / LinkedIn** — content performance
+
+**Impact:** Scorecard is anchored to March 2026 reporting baseline. Weekly-live numbers will become available as integrations are wired (target: end of April with RivalMind onboarding).
+
+---
+
+## ALERTS
+
+🔴 **CRITICAL**
+1. **No rock owners assigned.** All 3 Q2 rocks list \`[NEEDS INPUT]\`. Assign owners THIS WEEK at L10 — Content Coordinator (MM), Assignment Selling (Lynn + MM), Evergreen Engine (MM).
+2. **Attribution blind spot.** Marketing-originated revenue % cannot be reported until HubSpot ↔ CallRail ↔ GA4 ↔ Clio are wired. This is the single biggest CORE measurement gap.
+3. **Agency transition risk.** DGCL on 30-day notice. Confirm Google Ads admin transfer to RivalMind + yorCMO before notice expires.
+
+⚠ **WARNING**
+4. **Spokane DSA PPC bleeding.** $174.61 CPL on 8 leads = $1,397 producing 67% less efficient than LSA Spokane. Recommend pausing DSA_Spokane and reallocating to LSA or Seattle Probate (winning campaign).
+5. **Seattle EP PPC returned 1 lead for $270.** Pause or restructure ad group; check match types and landing page alignment.
+6. **Content cadence not yet measured.** Rock 3 (Evergreen Engine) requires published-per-pillar-per-week KPI to be set and tracked. Define target this week.
+7. **Lead → Consult → Matter conversion unmeasured.** Core marketing ROI metric is dark. Acuity → HubSpot → Clio pipeline must be closed.
+
+✅ **POSITIVE**
+8. **March 2026 lead goal exceeded** (119 vs 100 target) with blended CPL below target ($70.78 vs <$80).
+9. **LSA efficiency confirmed.** 30/70 PPC/LSA shift for April is the right call — LSA $59.96 avg vs PPC $95.71.
+10. **Seattle market is producing.** $35.77 Probate CPL and $38.23 LSA CPL are best-in-portfolio — double down here.
+11. **Marketing Manager onboarding starts TODAY (4/13).** Use this week to assign Q2 rock ownership, credential audit (Ninety/Strety, CallRail, GA4), and RivalMind kickoff alignment.
+12. **Brand refresh (Goblin) in final approval.** Unlocks brand-consistent content production for Rock 3.
+
+---
+
+## CMO ACTIONS THIS WEEK (Joseph)
+
+1. **Assign Q2 rock owners at Thursday L10.** Name each one — remove \`[NEEDS INPUT]\` from Mac Daddy File via \`marketing-md-editor\` after L10.
+2. **Kickoff with new Marketing Manager (today 4/13):** review Mac Daddy File, credential audit, assign scorecard + rock facilitation ownership.
+3. **Pause Spokane DSA PPC and Seattle EP PPC this week.** Reallocate ~$1,667/mo to LSA Spokane and Seattle Probate.
+4. **RivalMind kickoff:** confirm Google Ads admin transfer, HubSpot GA4 integration, CallRail property mapping fix — all before April 30.
+5. **Finalize Goblin brand approval** so Rock 3 (Evergreen Engine) can launch with new brand system.
+6. **Close the attribution loop:** scope a 2-week HubSpot ↔ CallRail ↔ GA4 fix with RivalMind. This is the biggest ROI unlock.
+7. **Approve Assignment Selling content map** (Rock 2 depends on it). Attach existing YouTube library (~1K videos) to each consult stage.
+
+---
+
+*Next run: Weekly — Mon April 20, 2026*
+*Output file: \`clients/ELG/agent-outputs/Weekly-Scorecard-2026-04-13.md\`*
+*Dashboard JSON: \`clients/ELG/agent-outputs/ROMI-Dashboard-2026-04-13.json\`*
+`,
+
+            crm: `# CRM HEALTH REPORT — ELG Estate Planning
+**Agent:** CORE CRM & Lead Ops Agent
+**Period:** Week of April 13, 2026 (Q2 Week 2)
+**Source:** HubSpot (known) + ELG Marketing Audit + Mac Daddy File Section 8
+**Generated:** April 13, 2026
+
+---
+
+## 🚨 CONNECTION STATUS — READ FIRST
+
+The HubSpot MCP connector currently authenticated in this session is **yorCMO's HubSpot portal** (account 43691372, Joseph Frost), **not ELG's**. ELG operates a separate HubSpot instance managed by the Marketing Manager and outgoing/incoming agencies.
+
+**Action required before next /run-crm:**
+1. Marketing Manager (starting today, 4/13) to confirm ELG HubSpot portal ID
+2. Authenticate the HubSpot MCP against ELG's portal (disconnect yorCMO → reconnect with ELG credentials, OR run a second MCP instance scoped to ELG)
+3. Or, grant Joseph a read-only user in ELG's HubSpot with API scope
+
+Until this is resolved, live CRM data cannot be pulled for ELG. This report reflects documented-state from the March 2026 Audit and Mac Daddy File.
+
+---
+
+## DATABASE OVERVIEW (from Mac Daddy File + CMO Progress)
+
+- **Platform:** HubSpot (primary CRM)
+- **Status:** ~90% dashboard trust per April CMO progress note
+- **Automation health:** 3 automated email sequences LIVE
+  - PreConsult (pre-consultation educational nurture)
+  - PostConsult (post-meeting follow-up)
+  - CanceledNoShow (re-engagement)
+- **Total contacts / deals / companies:** NEEDS LIVE PULL (pending ELG portal auth)
+
+---
+
+## LIFECYCLE STAGE DISTRIBUTION
+
+Per Mac Daddy File F4.3 + Audit: lifecycle stages are **inconsistent** across offices and lead sources.
+
+**Documented stages (target state):**
+| Stage | Intent | Status |
+|---|---|---|
+| Lead | New inbound not yet qualified | Present |
+| MQL | Engaged but unqualified | Inconsistent use |
+| SQL | Qualified for consultation | Inconsistent use |
+| Consultation | CNC booked | Present |
+| Client | Matter signed | Present |
+
+**Issues flagged:**
+- 🔴 **Stage definitions not documented** — each office/intake person uses them differently
+- 🔴 **No automated stage movement tied to Acuity bookings** (HubSpot ↔ Acuity is partial)
+- 🟡 **CallRail call events not creating HubSpot activities** → contacts captured but engagement data missing
+
+---
+
+## ACTIVE PIPELINE
+
+**Live pipeline pull pending ELG portal auth.** Known from March reporting baseline:
+- 119 leads generated in March 2026 (target 100+) ✓
+- Blended CPL $70.78 (target <$80) ✓
+- Consultation booking volume: **[NEEDS LIVE — Acuity ↔ HubSpot partial]**
+- Consultation → Matter conversion: **Not tracked in a unified framework**
+- Matter signings by office: **[NEEDS LIVE — Clio → HubSpot is manual]**
+
+---
+
+## NEW THIS WEEK (April 6–13)
+
+Pending ELG portal connection. Once authenticated, this section will show:
+- New contacts created last 7 days by office + source (PPC / LSA / Organic / Referral)
+- New deals opened
+- Stage movement summary
+- Active sequence enrollments
+
+---
+
+## NEW THIS QUARTER (Q2 — since April 1)
+
+Pending live pull. Key Q2 CRM metrics to establish baseline for:
+- Total new leads since Apr 1
+- Consultations booked since Apr 1
+- Matters signed since Apr 1
+- Marketing-originated revenue Q2 (requires attribution fix first)
+
+---
+
+## HYGIENE FLAGS (from Audit + documented state)
+
+### 🔴 CRITICAL — Integration Breakage
+1. **HubSpot ↔ CallRail: BROKEN** — Property mapping errors. Call recordings not syncing. This means LSA and PPC call leads may not have call activity on the contact record. Impact: intake team can't see call context; attribution to source campaign is corrupted.
+2. **HubSpot ↔ GA4: INCOMPLETE** — Bi-directional flow missing. Web-to-lead conversion events not firing to HubSpot. Impact: web traffic → contact → deal journey is dark.
+3. **HubSpot ↔ Acuity: PARTIAL** — Booking flow confusion. Lifecycle stage doesn't auto-advance on consult booking.
+4. **Clio ↔ HubSpot: MANUAL** — Matter creation not syncing. Impact: marketing-originated revenue % cannot be computed.
+
+### 🟡 MEDIUM — Process / Data Quality
+5. **Inconsistent lifecycle stage usage across offices** — Spokane / Tri-Cities / Seattle intake teams apply stages differently. Requires a documented stage definition + intake SOP.
+6. **No LSA invalid-lead credit workflow** — Audit flagged unqualified LSA leads from Google auto-match. No HubSpot field to mark for credit claim. Revenue recovery left on the table.
+7. **Intake responsiveness varies by location** — Kennewick (Tri-Cities) response time lagging vs. Spokane. LSA target is <15 min — no monitoring.
+8. **Seattle reviews thin (10 @ 5.0)** — PostConsult sequence should include review ask; confirm Seattle clients are entering the sequence.
+
+### ⚪ LOW — To Verify Once Connected
+9. Potential duplicate contacts across offices (same person inquiring on 2 locations)
+10. Contacts stuck in "Lead" stage >90 days without stage movement
+11. Contacts with no associated deal after CNC booking
+
+---
+
+## RECOMMENDATIONS (Prioritized)
+
+### URGENT — This Week
+1. **Get ELG HubSpot MCP access.** Marketing Manager first-week task. This unlocks every other CRM report.
+2. **Document lifecycle stage definitions.** One-pager from MM by Friday 4/17. Shared with intake team across 3 offices.
+3. **Scope HubSpot ↔ CallRail fix with RivalMind.** First priority in the RivalMind kickoff. Property mapping is a 1-2 day fix; restore call attribution.
+
+### HIGH — Next 2 Weeks
+4. **Fix HubSpot ↔ GA4 integration.** RivalMind to wire events (form submits, phone clicks, consult bookings). Target end of April.
+5. **Build LSA invalid-lead credit workflow.** HubSpot property + form + weekly review cadence for intake team. Recover spend on Google auto-match misfires.
+6. **Audit the 3 automated sequences.** PreConsult / PostConsult / CanceledNoShow — confirm trigger criteria, measure open/click/consult-booked rates, and set improvement targets.
+
+### MEDIUM — April–May
+7. **HubSpot ↔ Acuity full integration.** Auto-advance lifecycle stage on booking; write booking details to deal record.
+8. **Clio ↔ HubSpot bridge.** At minimum: weekly CSV import of new matters so marketing-originated revenue can be tracked. Long-term: API bridge.
+9. **Office-level dashboards in HubSpot.** Spokane / Tri-Cities / Seattle views for revenue contribution vs. WIG targets ($2.0M / $1.2M / $1.0M).
+10. **Intake response-time dashboard.** <15 min target, measured weekly, owned by MM.
+
+### LOW — Q2 Close
+11. De-dupe scan once live connection available.
+12. Stage-stuck contact nurture — sequence for Leads >90 days without activity.
+
+---
+
+## DATA GAPS (pending ELG portal connection)
+
+All "live" data points below are stubs awaiting authentication:
+- Total contacts, companies, deals
+- Pipeline by stage and office
+- New contact velocity (7-day, 30-day)
+- Source attribution breakdown
+- Automated sequence performance metrics
+- Activity timeline by contact
+
+---
+
+*Next run: Weekly — Mon April 20, 2026*
+*Output file: \`clients/ELG/agent-outputs/CRM-Health-Report-2026-04-13.md\`*
+*Blocker: ELG HubSpot MCP authentication*
+`,
+
+            research: `# RESEARCH & INTELLIGENCE BRIEF — ELG Estate Planning
+**Agent:** CORE Research & Intelligence Agent
+**Period:** April 2026 (bi-weekly cadence)
+**Scope:** Competitive landscape · market trends · buyer signal intelligence
+**Source:** Mac Daddy File F3.6 + ELG Marketing Audit + Personas & Content Guide
+**Generated:** April 13, 2026
+
+---
+
+## EXECUTIVE SUMMARY
+
+ELG's competitive position is strong but not uncontested. EEP (Elevated Estate Planning) is the most aggressive near-term threat on brand and Facebook cadence. Clearwater holds an SEO traffic advantage on immigration-adjacent keywords (not ELG's lane) but is a generalist. BHD is a low-threat B2B-leaning operator. The biggest market trends ELG should act on this quarter: (1) AI search citations (ChatGPT/Perplexity/Gemini) are starting to drive meaningful inquiry volume — ELG is not yet optimized for this; (2) Medicaid lookback and asset protection queries are up WA-wide after recent state budget coverage; (3) younger Proactive Professional persona (30–45) continues to search for "digital-first" estate planning — an opportunity ELG is under-serving.
+
+---
+
+## COMPETITOR TRACKING
+
+### 🔴 Elevated Estate Planning (EEP) — THREAT: HIGH
+
+**Position:** "Simple, practical, compassionate" estate planning
+**Where they're winning:**
+- Facebook cadence: ~6 posts/week (vs. ELG irregular)
+- 405 Google reviews in Spokane (vs. ELG 256)
+- 41 top-3 ranking keywords (EP space)
+- Still piggybacking on Moulton Law brand recognition in YouTube assets
+
+**Where ELG wins:**
+- YouTube subscriber lead (12.2K vs. EEP's lower count)
+- Narrower specialization (elder law focus vs. EEP's general EP)
+- Lynn as long-tenured recognizable brand face
+- Higher review rating (4.9 Spokane vs. EEP's)
+
+**Watch-fors this cycle:**
+- EEP continuing to trade on Moulton Law name — competitive positioning opportunity (ELG as the genuinely specialized WA firm)
+- Their Facebook cadence is the playbook we need to match once Evergreen Content Engine (Rock 3) is live
+
+**Action for ELG:** Match EEP's Facebook cadence by end of May (3–4 posts/week minimum). Publish one "why specialized elder law matters" blog + video in Q2 that subtly differentiates from generalist EP.
+
+---
+
+### 🟡 Clearwater Law Group — THREAT: MEDIUM
+
+**Position:** Multi-practice firm with Tri-Cities local credibility
+**Where they're winning:**
+- 56 #1-ranking keywords (mostly immigration rights — not ELG's lane)
+- Strong TikTok presence
+- 8.4K organic traffic monthly (69% of the competitive set's total)
+
+**Where ELG wins:**
+- Specialization focus (Clearwater is generalist — dilutes estate planning authority)
+- Google rating: 4.9 (Spokane) vs. Clearwater's 3.8 on 230 reviews
+- No elder law brand recognition at Clearwater
+- Clearwater's keyword dominance is in adjacent/irrelevant practice areas
+
+**Watch-fors this cycle:**
+- Any signal Clearwater hires a dedicated estate planning partner → elevated threat in TC market
+- TikTok emergence — ELG should test TikTok after YouTube Shorts rhythm is established
+
+**Action for ELG:** In Tri-Cities specifically, double down on "specialized vs. generalist" messaging on LSA and PPC. Tri-Cities is the office with the tightest WIG-to-baseline gap ($1.2M target).
+
+---
+
+### ⚪ Brothers Henderson Durkin (BHD) — THREAT: LOW
+
+**Position:** Elder law + disability law, professional referral focus
+**Where they're winning:**
+- LinkedIn and professional referral networks
+- Some specialized elder law authority
+
+**Where ELG wins:**
+- Consumer-facing brand and review volume
+- YouTube library depth
+- Three-office footprint vs. their single
+- No Google Business profile found (major gap)
+- B2B-leaning messaging — ELG is stronger on the B2C emotional buying journey
+
+**Watch-fors:** Low priority. Monitor quarterly.
+
+**Action for ELG:** BHD is a good LinkedIn referral partner candidate, not a direct-compete threat. Explore a co-authored piece or cross-referral arrangement for disability-law cases that overlap with elder law.
+
+---
+
+### 🔎 Indirect Competitors (DIY & Adjacent)
+
+**LegalZoom, RocketLawyer, Trust & Will:**
+- Growing market share among the Proactive Professional persona (30–45)
+- Cheap, fast, digital — but generic and non-WA-specific
+- **ELG opportunity:** The "digital-first but specialized" lane is open. Goblin brand refresh + Assignment Selling workflow can credibly own this without conceding on specialization.
+
+**Financial advisors offering basic estate packages:**
+- Emerging trend: wealth managers and RIAs bundling basic wills/trusts
+- Referral partner opportunity rather than threat
+- **Action:** Build 2–3 WA RIA referral relationships in Q2 (Content Coordinator can support)
+
+---
+
+## MARKET TRENDS (What's Moving in WA Estate Planning — April 2026)
+
+### 1. 🚀 AI search citations are becoming a lead source
+
+ChatGPT, Perplexity, and Gemini are starting to influence "who should I call for [X] in [my city]" queries. ELG's current AI visibility is unmeasured. This is the attribution gap the Audit flagged.
+
+**Signal indicators:**
+- Inquiry language drift: prospects citing "an AI said…" in intake notes (anecdotal)
+- Traditional search CTR declining WA-wide; zero-click search at all-time high
+- GA4 referral data showing direct/uncategorized traffic growth
+
+**Action:** Run the \`aeo-visibility-diagnostic\` skill on elderlawgroupwa.com this week. Benchmark ELG's citation rate across ChatGPT / Perplexity / Gemini for the top 20 persona queries.
+
+---
+
+### 2. 📈 Medicaid lookback queries are up across WA
+
+WA state budget coverage in Q1 2026 elevated public awareness of Medicaid rules and lookback periods. Search and content consumption for "Medicaid planning Washington" and "spend-down Washington" are up.
+
+**Signal indicators:**
+- Audit noted Medicaid content is technical and under-emotionalized
+- Adult Child persona (F2.2) is the primary consumer here
+- YouTube Shorts on Medicaid perform well — evidence the audience is there
+
+**Action:** Dedicate one full content pillar month to Caregiver Survival + Medicaid. Publish the "Medicaid lookback" blog (Blog Pipeline candidate for next cycle). Pair with 3-Short series on YouTube.
+
+---
+
+### 3. 💼 Proactive Professional persona (30–45) still under-served
+
+The Audit flagged this persona at 2/6 message resonance — weakest of the four. They want digital-first, transparent pricing, modern UX. ELG is positioned for this but not marketing to it.
+
+**Signal indicators:**
+- Digital estate planning tools (Trust & Will, Wealth.com) growing among this cohort
+- LinkedIn has become the primary intent channel for this persona (not Facebook)
+- Assignment Selling rollout (Rock 2) is tailor-made for this audience
+
+**Action:** Dedicate Q2 LinkedIn cadence to Proactive Professional-forward content. Land a "Modern, Simplified Experience" blog or landing page tied to the Goblin brand refresh.
+
+---
+
+### 4. ⚖️ WA Bar advertising scrutiny trending up
+
+Anecdotal: WA State Bar ethics panel activity around AI-generated legal content and outcome claims is elevated. Firms using aggressive outcome language are getting flagged.
+
+**Signal:** ELG's plain-English, Answers-Before-Advocacy voice is already compliant — this is a tailwind.
+
+**Action:** Keep voice rules tight (see Mac Daddy File F3.3). Have Lynn or compliance review every AI-drafted piece before publish.
+
+---
+
+## BUYER SIGNAL INTELLIGENCE
+
+### Inquiry pattern (from Mar 2026 reporting baseline)
+
+- **119 leads / $70.78 blended CPL** — above targets
+- **Seattle LSA converting at $38.23 CPL** — market resonance signal, double down
+- **Spokane DSA PPC at $174.61 CPL** — something is off with match types or landing pages; investigate with RivalMind
+- **Seattle EP PPC produced 1 lead at $270** — pause or restructure
+
+### Persona drift observations (qualitative)
+
+- **Adult Child calls** trending up (Medicaid coverage in WA)
+- **Retiree calls** steady, driven by financial advisor referrals
+- **Responsibility Bearer calls** lumpy — more need for post-death SEO content (addressed in this cycle's blog)
+- **Proactive Professional calls** under-represented relative to market opportunity
+
+### Review sentiment (topline)
+
+- Spokane 4.9 / 256 reviews — strong equity, keep asking
+- Tri-Cities 4.8 / 55 reviews — healthy but volume low; PostConsult sequence must be confirmed firing in TC
+- Seattle 5.0 / 10 reviews — rating excellent, volume is the issue; prioritize review asks in Seattle
+
+---
+
+## RECOMMENDATIONS (Prioritized)
+
+### URGENT — This Cycle (by April 27)
+1. **Run AEO visibility diagnostic** on elderlawgroupwa.com. Benchmark ChatGPT/Perplexity/Gemini citation rate vs. EEP, Clearwater, BHD.
+2. **Pause/restructure the bleeding PPC campaigns** (Spokane DSA, Seattle EP) with RivalMind.
+3. **Commit to Facebook cadence** — 3–4 posts/week minimum. Social Calendar Agent supports this.
+
+### HIGH — Next 30 Days
+4. **Publish the First-30-Days-After-Death blog** (Blog Pipeline Agent this cycle).
+5. **Double Tri-Cities LSA + content** on "specialized vs. generalist" messaging.
+6. **Build RIA referral pipeline** — identify 5 WA-based RIAs who serve ELG's retiree persona; reach out via LinkedIn with educational co-content.
+7. **Test LinkedIn-forward content** for Proactive Professional persona.
+
+### MEDIUM — Q2
+8. **Review-ask workflow for Seattle.** Confirm PostConsult sequence is firing; add Seattle-specific nudge.
+9. **Medicaid content month.** Queue a 3-short series and a blog for May.
+10. **Explore TikTok entry after YouTube Shorts rhythm stabilizes.**
+
+### LOW — Monitor
+11. BHD quarterly check-in (low threat).
+12. Clearwater hiring signals (watch for dedicated EP partner).
+
+---
+
+## OPEN QUESTIONS FOR CMO
+
+1. Is ELG comfortable with the "specialized vs. generalist" positioning push in TC specifically? (risk: alienates any general-referral relationships with Clearwater attorneys)
+2. Should Goblin deliverables include a Proactive Professional landing page template, or is that a separate Rival Mind project?
+3. Is there a budget available in Q2 for a targeted paid LinkedIn campaign to the Proactive Professional persona?
+
+---
+
+*Output file: \`clients/ELG/agent-outputs/Research-Intelligence-2026-04-13.md\`*
+*Next run: Bi-weekly — Mon April 27, 2026*
+`,
+
+            accountability: `# CMO ACCOUNTABILITY REPORT — ELG Estate Planning
+**Agent:** CORE CMO Accountability Agent
+**Period:** Week of April 13, 2026 · Q2 Week 2 of 13
+**For:** Lynn St. Louis (Founding Attorney) + Leadership Team
+**From:** Joseph Frost, Fractional CMO (yorCMO)
+**Source:** Mac Daddy File F1.4 + CMO progress notes + April 13 MM onboarding
+
+---
+
+## EXECUTIVE SUMMARY
+
+Q2 is ELG's foundation quarter under the CORE Growth System. The good news: lead generation is already exceeding targets (119 leads at $70.78 CPL in March). The risks: all three Q2 rocks lack named owners in writing, attribution is broken across HubSpot↔CallRail↔GA4↔Clio, and the DGCL → RivalMind agency transition has a 30-day window. The new Marketing Manager starts **today** — the single most important thing we do this week is name rock owners and assign accountability in the L10.
+
+---
+
+## ROCK ACCOUNTABILITY — Q2 2026
+
+### ROCK 1 — Content Coordinator Hired (Due: May 2026)
+- **Proposed owner:** Marketing Manager (starts 4/13)
+- **Co-owner:** Randie (People Ops) for sourcing
+- **Current status:** 🟡 AT RISK — 0% progress, ~7 weeks remaining
+- **Next milestones (by Friday 4/17):**
+  1. JD finalized with MM
+  2. Role posted (LinkedIn + Indeed + WA bar networks)
+  3. Interview panel confirmed
+- **Blockers:** Owner not yet named in writing
+- **Ask from Lynn:** Confirm MM as owner at Thursday L10
+
+### ROCK 2 — Assignment Selling Live (Due: June 1, 2026)
+- **Proposed owner:** Marketing Manager + Lynn St. Louis
+- **Current status:** 🟡 AT RISK — 0% progress, ~7 weeks remaining
+- **Next milestones (by end of April):**
+  1. Map existing YouTube/blog content library to each consult stage (Discovery → Pre-Visit → Consult)
+  2. HubSpot workflows built to auto-send pre-consult education
+  3. Dashboards for open/read/show-rate tracking
+- **Blockers:**
+  - Content library inventory not done
+  - HubSpot ↔ Acuity integration partial (needs fix first)
+  - Owner not yet named
+- **Ask from Lynn:** Review proposed content map by 4/27; approve sequence
+
+### ROCK 3 — Evergreen Content Engine Operational (Due: End Q2)
+- **Proposed owner:** Marketing Manager
+- **Co-owners:** RivalMind (production), Goblin (brand system), Content Coordinator (TBH)
+- **Current status:** 🟡 AT RISK — 0% progress, ~11 weeks remaining
+- **Next milestones (by April 30):**
+  1. 90-day calendar loaded against 5 pillars
+  2. 2/3 pillars in production (YouTube Shorts + Meta)
+  3. Scorecard KPI defined: content published per pillar per week
+- **Blockers:**
+  - Content Coordinator not yet hired (Rock 1 dependency)
+  - Goblin brand system in final approval (unblock by 4/20)
+  - Published-per-pillar KPI not yet defined
+- **Ask from Lynn:** Sign off on Goblin brand system; approve pillar-to-office mix
+
+---
+
+## DONE THIS WEEK (April 6–13)
+
+✅ Mac Daddy File built and deposited in SharePoint (\`clients/ELG/ELG-Mac-Daddy-File.md\`)
+✅ CORE Client Portal created and scoped to ELG
+✅ Week 1 Scorecard produced — lead gen exceeding targets
+✅ CRM Health Report produced — integration blockers named
+✅ Marketing Manager onboarding begins **today 4/13**
+✅ March 2026 reporting review complete — pacing shift to 30/70 PPC/LSA confirmed
+✅ DGCL 30-day notice issued; RivalMind onboarding initiated
+✅ Goblin brand design system in final approval
+
+---
+
+## IN PROGRESS
+
+🔄 RivalMind agency kickoff — credentials transfer, SEO/PPC handover, web management
+🔄 Goblin brand system — final approval → rollout
+🔄 HubSpot ↔ CallRail fix scoping (property mapping)
+🔄 HubSpot ↔ GA4 integration wiring
+🔄 Marketing Manager onboarding and role scoping
+🔄 Assignment Selling content library inventory
+
+---
+
+## BLOCKED
+
+🚫 **Marketing-originated revenue % cannot be reported** until HubSpot ↔ CallRail ↔ GA4 ↔ Clio attribution is wired. Estimated 2–4 week fix with RivalMind.
+
+🚫 **Lead → Consult → Matter conversion** unmeasured until attribution stack complete.
+
+🚫 **Rock ownership** — all 3 Q2 rocks unassigned in writing. Unblocks at Thursday L10.
+
+🚫 **ELG HubSpot MCP access** — yorCMO authenticated against its own portal, not ELG's. Need read-only MCP auth to ELG's HubSpot for live CRM reports.
+
+🚫 **Ninety.io / Strety credentials** — MM to collect during onboarding for live rock/KPI scorecarding.
+
+---
+
+## NEXT WEEK — PRIORITIES (April 14–20)
+
+**Lynn's asks:**
+1. ✅ **Assign rock owners at Thursday 4/17 L10.** Remove "[NEEDS INPUT]" from the Mac Daddy File.
+2. ✅ **Sign off on Goblin brand system.** Unblocks Rock 3.
+3. ✅ **Approve Assignment Selling content map** draft (scheduled 4/27).
+
+**Marketing Manager Week 1 focus:**
+1. Mac Daddy File walkthrough (complete by Wed)
+2. Credential audit: HubSpot, Ninety/Strety, GA4, CallRail, Acuity, Clio
+3. RivalMind handoff meeting scheduled
+4. Content Coordinator JD finalized and posted
+5. Intake-team alignment call (Spokane / TC / Seattle) on lifecycle stage definitions
+
+**Agency/Vendor:**
+1. RivalMind — HubSpot ↔ CallRail property mapping fix (target complete 4/25)
+2. RivalMind — HubSpot ↔ GA4 wiring (target complete 4/30)
+3. DGCL — final handoff package by 4/30 (Google Ads admin, GA4 property, HubSpot workflows)
+4. Goblin — final brand deliverables received and approved by 4/20
+
+**CMO (Joseph):**
+1. Run full CORE agent stack weekly (Mondays)
+2. Portal live on Netlify by 4/17 with Lynn's login
+3. Pause/reallocate Spokane DSA PPC and Seattle EP PPC (paid media cleanup with RivalMind)
+4. First weekly L10 with MM → align on accountability cadence
+
+---
+
+## ACCOUNTABILITY GAPS (Name + Call Out)
+
+| Gap | Who's missing | Fix by |
+|---|---|---|
+| Rock 1 owner | Unassigned | Thursday 4/17 L10 |
+| Rock 2 owner | Unassigned | Thursday 4/17 L10 |
+| Rock 3 owner | Unassigned | Thursday 4/17 L10 |
+| HubSpot integration scope | Unassigned → RivalMind | 4/20 kickoff |
+| Content published KPI definition | Unassigned → MM | 4/24 |
+| Intake SOP owner | Unassigned → MM | End of April |
+| LSA response time monitor | Unassigned → MM | End of April |
+
+---
+
+## THE ONE THING
+
+If we do nothing else this week, **assign the Q2 rock owners at Thursday's L10**. Everything else cascades from named accountability.
+
+---
+
+*Next run: Weekly — Mon April 20, 2026*
+*Output file: \`clients/ELG/agent-outputs/CMO-Accountability-2026-04-13.md\`*
+`,
+
+            blog: `# BLOG PIPELINE — ELG Estate Planning
+**Agent:** CORE Blog Pipeline Agent
+**Cycle:** April 13, 2026
+**Voice:** Lynn St. Louis — calm, authoritative, warm, patient; plain-English; WA-specific; "Answers Before Advocacy"
+**Personas:** Retiree (F2.1) · Adult Child (F2.2) · Responsibility Bearer (F2.3) · Proactive Professional (F2.4)
+**Pillars:** Life Event First Steps · Cost & Decision Clarity · Planning Confidence · Caregiver Survival · Attorney for Life
+**Generated:** April 13, 2026
+
+---
+
+## THIS CYCLE'S BLOG
+
+**Title (recommended):** *"What to Do in the First 30 Days After a Loved One Dies: A Washington Family's Guide"*
+
+**Alternate titles:**
+- *"The First 30 Days: A Washington Executor's Step-by-Step Guide"*
+- *"After a Loved One Passes in Washington: What to Handle This Month (and What Can Wait)"*
+
+**Primary pillar:** Life Event First Steps
+**Primary persona:** Responsibility Bearer (F2.3)
+**Secondary persona:** Adult Child (F2.2)
+**Target word count:** 1,400–1,700
+**Reading level:** 8th grade (Hemingway grade 8 or lower)
+
+---
+
+## TOPIC RESEARCH (Why this one, this cycle)
+
+1. **Direct search demand in WA:** High intent volume on "[county] probate first steps", "what to do after a death washington state", "how to get death certificate washington"
+2. **Competitive gap:** Audit shows no WA competitor owns a clean "first 30 days" resource. Clearwater is generalist; EEP is lighter on probate; BHD is B2B-leaning.
+3. **Assignment Selling fit:** This blog anchors Rock 2. Intake sends the link the same day a probate inquiry is logged → qualifies and educates before the consultation.
+4. **Evergreen durability:** WA probate process changes slowly; this post will remain relevant for 3–5 years with minor annual updates.
+5. **Internal linking opportunity:** Links naturally to "will vs trust," "probate cost in Washington," "power of attorney," "when to call an elder law attorney."
+
+---
+
+## OUTLINE
+
+**Opening (150 words)**
+- Empathy-led open: "If you're reading this, someone you love has died — and you're trying to figure out what to do next."
+- Establish who this is for (WA families; executors; spouses; adult children)
+- Frame: you don't need to do everything today. Here's what matters this week, this month, and what can wait.
+
+**Section 1 — The First 7 Days (300 words)**
+- Obtain death certificates (how many — rule of thumb 10–12 in WA; why)
+- Where to get them (WA Department of Health + county)
+- Secure the home (locks, mail hold, pets)
+- Funeral / memorial logistics (brief — this isn't a funeral guide)
+- What NOT to do yet (don't pay bills with the deceased's account; don't distribute property; don't close accounts)
+
+**Section 2 — Days 7–14: Locate the Documents (300 words)**
+- Original will (where they usually are: safe deposit, attorney's office, home safe, filed with county)
+- Trust documents
+- Beneficiary designations (401k, IRA, life insurance — these pass outside probate)
+- Deeds, vehicle titles, digital account lists
+- Why locating beneficiary-designated assets first can save months
+
+**Section 3 — Days 14–21: Notify Key Institutions (300 words)**
+- Social Security Administration (usually the funeral home reports; verify)
+- Banks and credit unions
+- Life insurance
+- Employer / former employer (pension, benefits)
+- Credit bureaus (to prevent identity theft)
+- Subscription services (practical note)
+
+**Section 4 — Days 21–30: Is This a Probate Case? (250 words)**
+- Plain-English definition of probate
+- When WA requires probate (estates over $100K in personal property, real estate in sole name, etc.) — general framing, not legal advice
+- Small-estate affidavits (when they apply in WA)
+- When a trust means you can skip probate entirely
+- When to call an attorney (directive but not salesy)
+
+**Section 5 — What Can Wait (150 words)**
+- Tax filings (executor has until the following April typically — confirm with CPA)
+- Emotional decisions (selling the house, distributing mementos)
+- "Give yourself permission to not decide everything in the first month"
+
+**Closing (150 words)**
+- "Attorney for Life" frame — this is what a lifelong legal partner is for
+- Lynn-voice signature line
+- CTA: "If you're in Washington and want to talk through where your family is in this process, we offer a focused 30-minute consultation. [link]"
+
+**Sidebar / pull-outs:**
+- Checklist (first-30-days PDF — offered as lead magnet)
+- "When to call an attorney today, not next month" flag box
+
+---
+
+## EVIDENCE / SOURCES TO PULL BEFORE DRAFTING
+
+- [ ] WA Department of Health death certificate process + current cost
+- [ ] RCW citations for small estate affidavit ($100K threshold, verify current)
+- [ ] WA probate threshold numbers (confirm current)
+- [ ] SSA death reporting process (official)
+- [ ] Current ELG "When to call an attorney" one-pager (for consistency)
+
+**Compliance check:** No specific fee quotes in post; no "you will" outcome promises; note that content is educational, not legal advice; WA Bar advertising rules observed.
+
+---
+
+## DRAFT STATUS
+
+**Current stage:** Outline complete
+**Next stages:**
+1. Evidence pull (MM or Content Coordinator, by 4/17)
+2. First draft (Lynn + ghostwriter, by 4/22)
+3. Edit pass (MM + yorCMO, by 4/25)
+4. Legal/compliance review (Lynn final approval, by 4/28)
+5. SEO metadata + publish checklist (RivalMind, by 4/30)
+6. Publish + social repurpose (5/1)
+
+---
+
+## SEO METADATA (draft)
+
+**Target keyword:** "what to do after a loved one dies washington"
+**Secondary keywords:** washington probate first steps · executor checklist washington · death certificate washington state
+**Meta title (58 chars):** First 30 Days After a Death in Washington: A Family Guide
+**Meta description (155 chars):** A clear, compassionate guide to what to do — and what can wait — in the first 30 days after a loved one dies in Washington. From a WA elder law firm.
+**H1:** What to Do in the First 30 Days After a Loved One Dies: A Washington Family's Guide
+**URL slug:** \`/first-30-days-after-death-washington\`
+**Schema:** Article + FAQPage (5 Q&A block)
+**Internal links planned:**
+- Will vs Trust blog (existing or next-cycle)
+- Probate cost in WA (next cycle)
+- Power of Attorney WA (next cycle)
+- Contact / Consultation page
+
+---
+
+## ASSIGNMENT SELLING PLAY (ties to Rock 2)
+
+- Intake triggers: any probate or "recent death" inquiry
+- Automated HubSpot workflow: send this blog + first-30-days checklist PDF within 15 minutes of inquiry
+- Pre-consult follow-up email 24h after: "Have you had a chance to read through this? Any questions we should prepare for your consultation?"
+- Measurement: open rate, click to checklist, consult show-rate vs. baseline
+
+---
+
+## PUBLISHING CHECKLIST (to run before go-live)
+
+- [ ] Lynn approval ✅
+- [ ] Evidence + citations verified
+- [ ] Reading level ≤ Grade 8
+- [ ] No outcome promises / no specific fee quotes
+- [ ] WA Bar advertising compliance check
+- [ ] Alt text on all images
+- [ ] Meta title + description set
+- [ ] URL slug set
+- [ ] Internal links wired
+- [ ] Checklist PDF uploaded and gated by email capture
+- [ ] HubSpot form + list created for lead magnet
+- [ ] HubSpot Assignment Selling workflow wired to trigger on probate inquiry
+- [ ] Social repurpose package (see Social-Calendar-2026-04-13.md 4/15 carousel + derivative Shorts)
+- [ ] Google Search Console submission
+- [ ] Published URL logged in content calendar
+
+---
+
+## NEXT CYCLE — Candidate Topics (for planning)
+
+1. **"Will vs. Trust in Washington: Which Does Your Family Actually Need?"** — Cost & Decision Clarity
+2. **"Power of Attorney in Washington: The Document Most Families Don't Have (and Should)"** — Planning Confidence
+3. **"Washington Medicaid Lookback: What You Need to Know Before You Apply"** — Caregiver Survival
+4. **"Estate Planning for Washington Small Business Owners"** — Proactive Professional (bridge to new persona lane)
+
+---
+
+*Output file: \`clients/ELG/agent-outputs/Blog-Pipeline-2026-04-13.md\`*
+*Target publish: May 1, 2026*
+*Next run: Weekly — Mon April 20, 2026*
+`,
+
+            linkedin: `# LINKEDIN CONTENT — ELG Estate Planning
+**Agent:** CORE LinkedIn Agent
+**Voice:** Lynn St. Louis (Founding Attorney) — calm, authoritative, warm, patient; plain-English; Washington-specific; "Answers Before Advocacy"
+**Period:** Week of April 13, 2026
+**Personas targeted:** Retiree (F2.1), Adult Child (F2.2), Responsibility Bearer (F2.3), Proactive Professional (F2.4)
+**Pillars drawn from:** Life Event First Steps, Cost & Decision Clarity, Planning Confidence, Caregiver Survival, Attorney for Life
+**Hard rules applied:** No jargon without translation · No salesy language · No overclaiming outcomes · WA Bar compliant
+**Generated:** April 13, 2026
+
+---
+
+## POST 1 — "Planning Confidence" pillar · Retiree persona · Story-led
+
+**Hook:**
+> After 38 years practicing elder law in Washington, I've learned the most dangerous sentence in estate planning is "we've got time."
+
+**Body:**
+Last month I sat with a couple in their late 60s. Healthy. Organized. Successful.
+
+They came in because their financial advisor told them to. Not because anything had changed.
+
+Two weeks later, the husband had a stroke.
+
+Because we had already signed durable powers of attorney — and because they already had a trust in place — his wife did not have to go to court. She did not have to prove anything to anyone. She could focus entirely on him.
+
+This is what "peace of mind" actually looks like. It is not a slogan. It is the absence of a court hearing on the worst week of your life.
+
+If you have been meaning to get your plan updated, this is your reminder. Not because we are fearmongering. Because time is the one variable none of us control.
+
+**CTA:** If you are in Washington and you've been putting it off, message me — I'll send you our one-page checklist of what to bring to a first meeting.
+
+**Hashtags:** #EstatePlanning #WashingtonState #ElderLaw #FinancialPlanning
+
+**Comment templates (for engagement follow-up):**
+- Thank you — I really appreciate you sharing that.
+- That's a great question — [short answer or "here's a short video we made on that: link"]
+- If you want to DM me the specifics I can point you to the right starting place.
+
+---
+
+## POST 2 — "Caregiver Survival" pillar · Adult Child persona · Empathy-led
+
+**Hook:**
+> If you're the adult child trying to figure out a parent's long-term care in Washington — I see you. This is the call nobody prepares you for.
+
+**Body:**
+The moment a parent needs memory care or a skilled nursing facility, three things hit you at once:
+
+1. You don't know what Medicaid actually pays for.
+2. You don't know what "spend-down" means, and nobody explains it clearly.
+3. You are terrified of making a wrong move that costs your family the house.
+
+You are not behind. You are not supposed to know this. Most people only learn it once — and usually in a crisis.
+
+Here is the single most important thing: in Washington, there are legal strategies that let families protect assets without doing anything improper. But they require planning before the full application, not after. The earlier you call — even a year out, even six months out — the more options you have.
+
+You do not have to figure this out alone. And you do not have to figure it out tonight.
+
+**CTA:** If you're in Washington and want to know what questions to ask before your parent applies for Medicaid, DM me. Happy to send our free primer.
+
+**Hashtags:** #ElderCare #MedicaidPlanning #Caregiver #WashingtonState
+
+**Comment templates:**
+- I'm sorry you're walking through this. You're asking the right questions.
+- Short answer is [two sentences]. If you want the longer version, DM me.
+- Here's a short video we recorded on exactly this: [link]
+
+---
+
+## POST 3 — "Cost & Decision Clarity" pillar · Proactive Professional persona · Myth-buster
+
+**Hook:**
+> Three things most Washingtonians believe about estate planning that cost them more money than the plan itself would have.
+
+**Body:**
+**Myth 1: "A will is enough."**
+A will does not avoid probate. A will tells a court how you'd like things distributed — after your family pays attorneys and waits nine to twelve months. A properly funded trust avoids that entirely.
+
+**Myth 2: "Estate planning is for people with estates over $X million."**
+The federal estate tax exemption gets the headlines. What matters for most families is probate cost, incapacity planning, and guardianship for minor children. None of that has anything to do with your net worth.
+
+**Myth 3: "I'll just use an online template."**
+Templates do not fund trusts. They do not coordinate with your retirement accounts. They do not account for Washington's community property rules. The software sells you a document — it does not build you a plan.
+
+You do not need to spend a fortune on estate planning. You do need someone who actually practices this — not someone who does a little of everything.
+
+**CTA:** Message me if you want a simple checklist of what a real estate plan should cover for a Washington family.
+
+**Hashtags:** #EstatePlanning #Probate #Washington #FinancialLiteracy
+
+**Comment templates:**
+- Great follow-up question — short answer: [two lines].
+- The template-vs-plan distinction is the single most common confusion I see.
+- DM me and I'll send the one-pager.
+
+---
+
+## POSTING GUIDANCE
+
+- **Cadence:** 3 posts over the week — Tuesday, Wednesday, Thursday (peak LinkedIn engagement for professional services in WA)
+- **Time:** 6:30–7:30 AM PT (when commuters and retirees check feeds)
+- **Format:** Text-only for Post 1 and Post 3; consider a short vertical video for Post 2 pulled from the YouTube library
+- **Cross-post:** Convert Post 2 to a 60-second YouTube Short (Caregiver Survival pillar — strongest format for ELG)
+- **Monitor:** Lynn + MM to respond to comments within 4 hours during business days
+- **Lead capture:** All three CTAs point to DM → funnel into HubSpot via LinkedIn lead form or manual intake
+
+## BRAND SAFETY CHECK
+
+✅ No specific outcome promises
+✅ No discussion of Medicaid qualification specifics (kept general; directs to consult)
+✅ No "act now" urgency language
+✅ WA-specific context throughout
+✅ Plain-English translation of legal concepts
+✅ Empathy-first framing on caregiver post
+✅ No disparagement of competitors or software products
+
+---
+
+*Output file: \`clients/ELG/agent-outputs/LinkedIn-2026-04-13.md\`*
+*Next run: Weekly — Mon April 20, 2026*
+`,
+
+            social: `# WEEKLY SOCIAL CALENDAR — ELG Estate Planning
+**Agent:** CORE Social Calendar Agent
+**Week of:** April 13–19, 2026
+**Pillars:** Life Event First Steps · Cost & Decision Clarity · Planning Confidence · Caregiver Survival · Attorney for Life
+**Platforms:** YouTube Shorts (primary — strongest format) · Facebook · Instagram · LinkedIn
+**Voice:** Lynn St. Louis — calm, authoritative, warm, patient; plain-English; WA-specific
+**Generated:** April 13, 2026
+
+---
+
+## WEEK AT A GLANCE
+
+| Day | Platform(s) | Pillar | Format | Persona | Owner |
+|---|---|---|---|---|---|
+| Mon 4/13 | LinkedIn | Planning Confidence | Text + link | Retiree | Lynn |
+| Tue 4/14 | YouTube Short + Meta + LinkedIn | Caregiver Survival | 60s vertical video | Adult Child | Lynn + MM |
+| Wed 4/15 | Facebook + Instagram | Life Event First Steps | Carousel (5 slides) | Responsibility Bearer | MM |
+| Wed 4/15 | LinkedIn | Cost & Decision Clarity | Text (myth-buster) | Proactive Professional | Lynn |
+| Thu 4/16 | YouTube Short + Meta | Planning Confidence | 45s vertical video | Retiree | Lynn |
+| Fri 4/17 | Instagram Story + FB | Attorney for Life | Client-safe quote card | All | MM |
+| Sat 4/18 | YouTube Short | Cost & Decision Clarity | 60s vertical video | Proactive Professional | Lynn |
+
+**Total planned posts:** 9 (3 LinkedIn, 3 YouTube Shorts, 4 Meta incl. 1 Story, 1 IG Carousel)
+
+---
+
+## MONDAY 4/13 — LINKEDIN (Planning Confidence)
+
+**Topic:** The couple who signed their plan two weeks before the stroke
+**Hook:** "After 38 years practicing elder law in Washington, I've learned the most dangerous sentence in estate planning is 'we've got time.'"
+**CTA:** DM for one-page first-meeting checklist
+**Source:** See \`LinkedIn-2026-04-13.md\` Post 1
+
+---
+
+## TUESDAY 4/14 — YOUTUBE SHORT + CROSS-POST (Caregiver Survival)
+
+**Topic:** "3 things you wish you knew before your parent needed Medicaid"
+**Hook (on-screen first 3 sec):** "If you just got the call about mom — watch this."
+**Format:** 60-second vertical, Lynn direct-to-camera, lower-third captions, closing slate with ELG logo + "Washington families, elder law"
+**Script outline:**
+- 0–5s: Hook — "If you just got the call..."
+- 5–20s: Point 1 — Medicaid has a 5-year lookback in WA; planning earlier = more options
+- 20–35s: Point 2 — Spend-down doesn't mean losing everything
+- 35–50s: Point 3 — You don't have to apply before you talk to an elder law attorney
+- 50–60s: Soft CTA — "Comment 'Medicaid' and I'll send you our free primer."
+
+**Cross-post adaptations:**
+- **Meta (FB + IG Reel):** Same video, caption: "For adult children in Washington trying to figure out a parent's care — this one's for you."
+- **LinkedIn:** Native upload (LinkedIn penalizes YouTube links); caption from LinkedIn Post 2
+
+**Asset needs:** Raw 90-second recording · 60s cut · captions · thumbnail · "Medicaid primer" lead magnet
+
+---
+
+## WEDNESDAY 4/15 — FACEBOOK + INSTAGRAM CAROUSEL (Life Event First Steps)
+
+**Topic:** "What to do in the first 30 days after a loved one passes — a Washington guide"
+**Format:** 5-slide carousel
+1. **Cover:** "First 30 Days: What to do when a loved one passes (Washington edition)"
+2. Week 1 — Obtain death certificates (how many, where)
+3. Week 1–2 — Locate the will / trust / beneficiary docs
+4. Week 2–3 — Notify key institutions (SSA, banks, insurance)
+5. Week 3–4 — When to call an estate or probate attorney (CTA slide)
+
+**Caption:** "We made this because every family we work with asks these questions in the first week. Save it. Share it with a sibling who might need it."
+**Hashtags (IG):** #WashingtonProbate #EstateAdministration #GriefSupport #ElderLaw
+**Asset needs:** Carousel design in Goblin brand (once approved) — fallback to current brand if not yet live
+
+---
+
+## WEDNESDAY 4/15 — LINKEDIN (Cost & Decision Clarity)
+
+**Topic:** Three myths that cost WA families more than a plan would
+**Source:** See \`LinkedIn-2026-04-13.md\` Post 3
+
+---
+
+## THURSDAY 4/16 — YOUTUBE SHORT + META (Planning Confidence)
+
+**Topic:** "The one document every married Washingtonian should have — and probably doesn't"
+**Hook:** "If something happened to your spouse tomorrow, could you access the bank account without a court order?"
+**Script outline:**
+- 0–5s: Hook question
+- 5–30s: Explain durable power of attorney for finances; why WA community property doesn't automatically solve this
+- 30–45s: Real-story illustration (de-identified)
+- 45–60s: CTA — "DM us 'POA' for a one-page WA-specific overview"
+
+**Cross-post:** Same cut to FB Reel + IG Reel with identical caption.
+**Asset needs:** 45s recording · POA one-pager lead magnet
+
+---
+
+## FRIDAY 4/17 — INSTAGRAM STORY + FACEBOOK (Attorney for Life)
+
+**Topic:** Client-safe quote card + "Friday gratitude"
+**Format:** 1 Story slide + 1 FB post
+**Quote (de-identified, composite):** "What I appreciated most was knowing I could call them again ten years from now." — ELG client, 2025
+**Caption (FB):** "The 'Attorney for Life' promise isn't a tagline. It's the 10-year follow-up call. Grateful to every Washington family that's trusted us with something this important."
+**Asset needs:** Goblin-brand quote card template
+
+---
+
+## SATURDAY 4/18 — YOUTUBE SHORT (Cost & Decision Clarity)
+
+**Topic:** "Will vs. Trust — the 90-second version"
+**Hook:** "Here's the difference in 90 seconds — no legal jargon, I promise."
+**Script outline:**
+- 0–5s: Hook + visual split-screen "WILL | TRUST"
+- 5–30s: Will = directions after court; Trust = plan without court
+- 30–50s: When each is right (most WA families: both)
+- 50–60s: "Comment 'checklist' for our one-page will-vs-trust guide"
+
+**Asset needs:** 60s recording · checklist lead magnet · split-screen graphic
+
+---
+
+## ENGAGEMENT PLAN
+
+- **Response SLA:** 4 hours during business days, 24 hours weekend
+- **Comment owner:** MM (primary), Lynn (legal-specific questions)
+- **DM-to-HubSpot flow:** Every "send me the primer" DM → capture name + email → create Contact in HubSpot with source "Social - [platform]" → enroll in Pre-Consult nurture (where appropriate)
+- **Lead magnets referenced this week:** First-Meeting Checklist · Medicaid Primer · POA Overview · Will-vs-Trust Checklist — confirm all 4 are staged on the website and linked in HubSpot before Tuesday
+
+---
+
+## MEASUREMENT TARGETS (define baseline this week)
+
+| Metric | Baseline (Mar) | Target this week |
+|---|---|---|
+| YouTube Shorts views | ~530 avg per short | Maintain 400+ per short |
+| YouTube Shorts subscribers added | — | +15 across 3 Shorts |
+| Meta organic reach | [NEEDS BASELINE] | Establish baseline |
+| LinkedIn post impressions | [NEEDS BASELINE] | Establish baseline |
+| DM conversions to HubSpot contact | [NEEDS BASELINE] | ≥5 new contacts from social this week |
+
+**Action:** MM to set up a simple weekly Social Scorecard — pull each Monday for review.
+
+---
+
+## BRAND SAFETY
+
+✅ All posts use plain-English legal translation
+✅ No outcome promises (no "we got X $ back for our client")
+✅ No comparative disparagement of competitors
+✅ No Medicaid qualification specifics (always directs to consult)
+✅ Goblin brand system to be applied once final approval lands (expected 4/17)
+✅ Interim: use current ELG brand guidelines
+
+---
+
+*Output file: \`clients/ELG/agent-outputs/Social-Calendar-2026-04-13.md\`*
+*Next run: Weekly — Mon April 20, 2026*
+`,
+
+            macdaddy: `MARKETING SOURCE OF TRUTH — The Mac Daddy File
+Organized around the Six Fundamentals of Marketing
+Last updated: April 12, 2026
+Status: Active — all agents read from this file
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+F1: KNOW WHERE YOU'RE GOING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  F1.1 Company Overview
+    Company: yorCMO | Website: yorcmo.com
+    Model: Fractional CMO network + CORE Growth System
+    CMO: Joseph Frost, Co-Founder
+
+  F1.2 Goals & KPIs — T1 2026 (Feb–May) · Week 11 of 17
+    WIG: Grow CMOs 21→100, Referral Clients 12→36 by Dec 2027
+    T1 target: +6 net new CMOs → 27 active (currently 26)
+    6 rocks: 1 on track / 2 at risk / 3 off track
+    Lead measures: 0 🟢 / 1 🟡 / 6 🔴 · Lag: 1 🟢 / 0 🟡 / 6 🔴
+
+  F1.3 Rocks (90-Day Execution Plan)
+    6 rocks with milestones, owners, and deadlines
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+F2: UNDERSTAND YOUR BUYER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  F2.1 Primary Persona: The Burned Founder
+    Title: CEO / Founder / Owner
+    Company: $5M–$50M revenue, founder-led
+    Pain: Been burned by agencies and marketing hires
+    Trigger: Growth plateaued, key person left, competitor ahead
+    Want: Straight talk, show the math, no jargon
+
+  F2.2 Problems We Solve
+  F2.3 Buyer Insights
+  F2.4 Anti-ICP Signals
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+F3: POSITION YOUR OFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  F3.1 Positioning
+    For: $5M–$50M founder-led businesses
+    Offer: Senior fractional CMO + AI-powered growth system
+    Differentiator: Client keeps everything — data, strategy, history
+
+    Why yorCMO Wins:
+    1. System, not a person — intelligence stays when CMO leaves
+    2. Six Fundamentals framework — proven methodology
+    3. Client owns all data and intelligence
+    4. CMO is the gateway — AI runs on CMO strategy
+    5. 26+ fractional CMOs across verticals
+
+  F3.2 Brand Voice
+    Joseph's voice: Like texting — casual, direct, warm
+    Company voice: Confident but not arrogant. Plain English.
+    Hard rules: Never say "agentic." No synergy/leverage/touch base. One follow-up max.
+
+  F3.3 Competitive Landscape
+    Primary threat: Chief Outsiders / GrowthGears OS
+
+  F3.4 Product & Pricing
+    New clients: CMO retainer + $2,700/month for CORE
+    Existing (Base): 4 coordinator agents included
+    Existing (Content): $1,000/month
+    Existing (Full CORE): $2,700/month
+    CMO commission: 30% ($810/month per client)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+F4: ALIGN SALES & MARKETING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  F4.1 Steps to the Sale
+  F4.2 Where Marketing Fits
+  F4.3 X-Factors
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+F5: BUILD A PLANNING CADENCE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  F5.1 Content Pillars & Monthly Themes
+    Pillar 1: The AI Strategy Conversation
+    Pillar 2: The Fractional CMO Advantage
+    Pillar 3: Growth Systems Over Growth Hacks
+    Pillar 4: Client Results & Proof
+    April theme: "The System vs. The Agency"
+
+  F5.2 Budget
+    Annual marketing budget with category breakdown
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+F6: STRUCTURE YOUR EXECUTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  F6.1 Evergreen Campaign
+  F6.2 Niche Campaign (Panel Cast Series — 4/7 complete)
+  F6.3 Campaign History
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+OPERATIONAL SECTIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Section 7: Agent Library — 24+ agents across 3 tiers
+    Tier 1 (Coordinator): Scorecard, CRM, Research, Accountability
+    Tier 2 (Evergreen): Blog Pipeline, Social Calendar, LinkedIn,
+      SEO & AEO, Website Copy, FAQ, Newsletter, Repurposer
+    Tier 3 (Niche): Campaign Concepts, Competitor Teardown,
+      Brand Voice, Persona Builder, Homepage Hero, Market Trends
+
+  Section 8: Integrations
+    ✅ HubSpot CRM (10,248 contacts) | ✅ Google Analytics
+    ⚠  Social Platforms — Not connected | ⚠  Email — Not connected
+
+  Section 9: How Agents Use This File
+    Every agent reads from the Mac Daddy File for context.
+    Update it here, and every agent adjusts automatically.
+    All agents mapped to the Six Fundamentals framework.`
+        };
+
+        // Modal functions
+        function openModal(title, type) {
+            const modal = document.getElementById('modalOverlay');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalContent = document.getElementById('modalContent');
+
+            modalTitle.textContent = title;
+            modalContent.innerHTML = '<div class="loading-spinner"><div class="spinner"></div></div>';
+            modal.classList.add('active');
+
+            // Simulate loading delay
+            setTimeout(() => {
+                const output = agentOutputs[type] || 'Output not found';
+                modalContent.innerHTML = `<div class="output-content">${output}</div>`;
+            }, 1500);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modalOverlay');
+            modal.classList.remove('active');
+        }
+
+        // Close modal on overlay click
+        document.getElementById('modalOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Sidebar navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const section = this.dataset.section;
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+
+                const element = document.getElementById(section);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // View all link
+        document.querySelector('.view-all-link').addEventListener('click', function() {
+            alert('View All functionality would expand the available agents list. This is a demo of the CORE Growth System dashboard.');
+        });
+
+        // =====================================================
+        // ROMI DASHBOARD DATA LAYER
+        // Architecture: Mac Daddy File (context) → ROMI Dashboard Agent
+        //   reads Strety + HubSpot → writes agent-outputs/ROMI-Dashboard-YYYY-MM-DD.json
+        //   → Portal renders from that JSON
+        // This data object mirrors the agent output schema exactly.
+        // To update: run the ROMI Dashboard Agent, then paste its output here
+        //   (or load dynamically when API layer is built)
+        // =====================================================
+
+        const StretyIntegration = {
+            // Configuration — for future direct API connection
+            config: {
+                apiBase: 'https://api.strety.com/v1',
+                apiKey: null,
+                companyId: null,
+                connected: false,
+                // Agent output metadata
+                lastAgentRun: '2026-04-12T16:00:00Z',
+                agentSource: 'agent-outputs/ROMI-Dashboard-2026-04-12.json'
+            },
+
+            // Current data — from Scorecard Agent LIVE RUN (2026-04-12 16:00 UTC)
+            // Schema matches: agent-outputs/ROMI-Dashboard-2026-04-12.json
+            // Sources: Strety (Leadership + Sales & Marketing teams) + HubSpot CRM
+            data: {
+                wig: {
+                    title: 'Grow CMOs from 21 → 100 & Referral Clients from 12 → 36',
+                    subtitle: 'By December 2027 · T1 target: +6 net new → 27 active',
+                    from: 21,
+                    to: 100,
+                    current: 26,
+                    deadline: '2027-12-31',
+                    quarterWeek: 11,
+                    totalWeeks: 17,
+                    status: 'off-track'
+                },
+
+                wins: [
+                    { text: 'CMO Intro Meetings surged to 8 — best single week of trimester', done: true, source: 'Strety · S&M Team' },
+                    { text: 'AI Projects Sold at 9 for trimester — strong independent line', done: true, source: 'Strety · S&M Team' },
+                    { text: 'Fanny licensing rock at 60% — only rock on pace', done: true, source: 'Strety · Leadership' },
+                    { text: 'Marguerite AI brand positioning active — interview report delivered', done: true, source: 'Strety · Leadership' },
+                    { text: '171 new contacts added to CRM since T1 start', done: true, source: 'HubSpot' },
+                    { text: '3 active deals in CMO pipeline worked this week', done: true, source: 'HubSpot' },
+                    { text: 'Last L10 Meeting Apr 6 — rating 9.2', done: true, source: 'Strety · Leadership' },
+                    { text: 'Licensee CMO Prospects pipeline at 21', done: true, source: 'Strety · S&M Team' }
+                ],
+
+                rocks: [
+                    { name: 'Standardize & De-Risk Licensing Process', progress: 60, color: 'green', detail: 'Fanny Ramos · 3/5 milestones · On Track (Mar 30) · Legal FAQ done', owner: 'Fanny Ramos' },
+                    { name: 'Incorporate AI into Brand & Positioning', progress: 25, color: 'yellow', detail: 'Marguerite Yeo · 1/4 milestones · Active (Apr 6) · Interview report done', owner: 'Marguerite Yeo' },
+                    { name: 'Marketing Brain as Core Delivery Platform', progress: 50, color: 'yellow', detail: 'Joseph Frost · 2/4 milestones · No check-in since Mar 16 (27 days)', owner: 'Joseph Frost' },
+                    { name: 'Content Creation & Partner Nurturing Campaign', progress: 25, color: 'red', detail: 'Flor Arballo · 1/4 milestones · Off Track · Deadline missed Mar 31', owner: 'Flor Arballo' },
+                    { name: 'Firm Growth System That Scales Revenue', progress: 0, color: 'red', detail: 'Chad Person · 0/5 milestones · NEVER checked in · MVP missed Mar 31', owner: 'Chad Person' },
+                    { name: 'Coordinator → Marketing Manager Transition', progress: 14, color: 'red', detail: 'Marshall Poindexter · 1/7 milestones · NEVER checked in', owner: 'Marshall Poindexter' }
+                ],
+
+                kpis: {
+                    lead: [
+                        { name: 'CMO Intro Meetings Held', target: '≥ 25 / tri', weeks: [8, 2, 3, 0], status: 'yellow', triTotal: 20 },
+                        { name: 'Hot Leads from Referrals', target: '≥ 1 / wk', weeks: [0, 0, 0, 1], status: 'red', triTotal: 9 },
+                        { name: 'Hot Leads from Sales', target: '≥ 1 / wk', weeks: [0, 0, 0, 0], status: 'red', triTotal: 0 },
+                        { name: 'Hot Leads from Marketing', target: '≥ 1 / wk', weeks: [0, 0, 0, 0], status: 'red', triTotal: 0 },
+                        { name: 'Intro Meetings Held (Flor)', target: '≥ 2 / wk', weeks: [0, 1, 0, 0], status: 'red', triTotal: 8 },
+                        { name: 'CMO Deep Dives Held', target: '≥ 10 / tri', weeks: [0, 0, 1, 1], status: 'red', triTotal: 4 },
+                        { name: 'Franchise/License Agreements', target: '≥ 1', weeks: [0, 0, 0, 0], status: 'red', triTotal: 0 }
+                    ],
+                    lag: [
+                        { name: 'Monthly Client Billable MRR', target: '≥ $171.8K', weeks: ['$120.3K', '$120.3K', '$120.3K', '$120.3K'], status: 'red' },
+                        { name: 'MRR Net to yorCMO', target: '≥ $31.1K', weeks: ['$23.0K', '$23.0K', '$23.0K', '$23.0K'], status: 'red' },
+                        { name: 'Total Real Revenue (MTD)', target: '≥ $66.6K', weeks: ['$28.3K', '$46.2K', '$45.5K', '$44.5K'], status: 'red' },
+                        { name: 'New CMOs This Trimester', target: '≥ 6', weeks: [0, 0, 0, 0], status: 'red', triTotal: 0 },
+                        { name: 'Licensee CMO Prospects', target: '≥ 0', weeks: [21, 17, 15, 15], status: 'green' },
+                        { name: 'Total Active CMOs', target: '≥ 27', weeks: [26, 26, 26, 26], status: 'red' },
+                        { name: 'Clients per CMO (w/ 1+)', target: '≥ 2.0', weeks: [1.78, 1.78, 1.78, 1.78], status: 'red' }
+                    ]
+                }
+            },
+
+            // Attempt to connect to Strety API
+            async connect(apiKey, companyId) {
+                this.config.apiKey = apiKey;
+                this.config.companyId = companyId;
+                try {
+                    const response = await fetch(`${this.config.apiBase}/companies/${companyId}/rocks`, {
+                        headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' }
+                    });
+                    if (response.ok) {
+                        this.config.connected = true;
+                        console.log('[Strety] Connected successfully');
+                        await this.pullAll();
+                        return true;
+                    }
+                } catch (e) {
+                    console.log('[Strety] Connection failed — using manual data:', e.message);
+                }
+                return false;
+            },
+
+            // Pull all data from Strety
+            async pullAll() {
+                if (!this.config.connected) return;
+                await Promise.all([
+                    this.pullRocks(),
+                    this.pullScorecard(),
+                    this.pullTodos()
+                ]);
+                this.renderAll();
+            },
+
+            // Pull Rocks (maps to Quarterly Rocks + WIG)
+            async pullRocks() {
+                try {
+                    const res = await fetch(`${this.config.apiBase}/companies/${this.config.companyId}/rocks`, {
+                        headers: { 'Authorization': `Bearer ${this.config.apiKey}` }
+                    });
+                    if (res.ok) {
+                        const rocks = await res.json();
+                        // Map Strety rocks to our data structure
+                        console.log('[Strety] Rocks pulled:', rocks.length);
+                        // TODO: Map rocks to this.data.rocks and this.data.wig
+                    }
+                } catch (e) { console.log('[Strety] Rocks pull failed:', e.message); }
+            },
+
+            // Pull Scorecard (maps to KPI table)
+            async pullScorecard() {
+                try {
+                    const res = await fetch(`${this.config.apiBase}/companies/${this.config.companyId}/scorecard`, {
+                        headers: { 'Authorization': `Bearer ${this.config.apiKey}` }
+                    });
+                    if (res.ok) {
+                        const scorecard = await res.json();
+                        console.log('[Strety] Scorecard pulled:', scorecard.length, 'metrics');
+                        // TODO: Map scorecard to this.data.kpis
+                    }
+                } catch (e) { console.log('[Strety] Scorecard pull failed:', e.message); }
+            },
+
+            // Pull To-dos / L10 items (maps to Weekly Wins)
+            async pullTodos() {
+                try {
+                    const res = await fetch(`${this.config.apiBase}/companies/${this.config.companyId}/todos`, {
+                        headers: { 'Authorization': `Bearer ${this.config.apiKey}` }
+                    });
+                    if (res.ok) {
+                        const todos = await res.json();
+                        console.log('[Strety] Todos pulled:', todos.length);
+                        // TODO: Map todos to this.data.wins
+                    }
+                } catch (e) { console.log('[Strety] Todos pull failed:', e.message); }
+            },
+
+            // Re-render ROMI dashboard with latest data
+            renderAll() {
+                console.log('[Strety] Render triggered — data source:', this.config.connected ? 'Strety API' : 'Manual');
+                // Future: DOM updates to reflect pulled data
+                // For now, the HTML is static with current manual data
+            },
+
+            // Status check
+            status() {
+                return {
+                    connected: this.config.connected,
+                    dataSource: this.config.connected ? 'Strety API (live)' : 'Manual (Mac Daddy + HubSpot + CMO Update)',
+                    wig: this.data.wig.title,
+                    rocksCount: this.data.rocks.length,
+                    kpiCount: this.data.kpis.lead.length + this.data.kpis.lag.length,
+                    winsThisWeek: this.data.wins.filter(w => w.done).length + '/' + this.data.wins.length
+                };
+            }
+        };
+
+        // Expose globally for console access during demos
+        window.Strety = StretyIntegration;
+
+        // Log status on load
+        console.log('[CORE Growth System] ROMI Dashboard loaded');
+        console.log('[Strety Integration]', StretyIntegration.status());
+        console.log('[Strety] To connect: Strety.connect("your-api-key", "your-company-id")');
+
+        // ── LOGIN AUTHENTICATION ──
+        // Client passwords (SHA-256 hashed). To add a new client:
+        // 1. Pick a password
+        // 2. Run: echo -n "password" | shasum -a 256
+        // 3. Add the hash below
+        const VALID_HASHES = [
+            '43c27b4e263fa191a6a7ec198cd4d5b47d17413c49d77dc533a01720707e3202'  // demo2026 (CORE standard)
+        ];
+
+        async function sha256(message) {
+            const msgBuffer = new TextEncoder().encode(message);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const pw = document.getElementById('loginPassword').value;
+            const errorEl = document.getElementById('loginError');
+            if (!pw) {
+                errorEl.textContent = 'Please enter a password.';
+                return false;
+            }
+            const hash = await sha256(pw);
+            if (VALID_HASHES.includes(hash)) {
+                // Success — unlock the portal
+                document.getElementById('loginOverlay').classList.add('hidden');
+                document.body.classList.remove('locked');
+                sessionStorage.setItem('core_auth', hash);
+                errorEl.textContent = '';
+            } else {
+                errorEl.textContent = 'Invalid password. Contact your CMO for access.';
+                document.getElementById('loginPassword').value = '';
+                document.getElementById('loginPassword').focus();
+            }
+            return false;
+        }
+
+        // Check if already authenticated this session
+        (function checkAuth() {
+            const stored = sessionStorage.getItem('core_auth');
+            if (stored && VALID_HASHES.includes(stored)) {
+                document.getElementById('loginOverlay').classList.add('hidden');
+                document.body.classList.remove('locked');
+            }
+        })();
+
+        // WIG progress animation on load
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                const wigBar = document.getElementById('wigProgress');
+                if (wigBar) {
+                    // Animate to current progress (0/5 = 0%, show 3% sliver)
+                    const pct = Math.max(3, (StretyIntegration.data.wig.current / StretyIntegration.data.wig.to) * 100);
+                    wigBar.style.width = pct + '%';
+                }
+            }, 500);
+        });
+    </script>
+</body>
+</html>
